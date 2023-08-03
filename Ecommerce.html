@@ -1,0 +1,134 @@
+
+<?php
+// Create the database
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+
+// Create a connection
+$connection = mysqli_connect($servername, $username, $password);
+
+// Check the connection
+if (!$connection) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Create the database
+$createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS mydatabase";
+mysqli_query($connection, $createDatabaseQuery);
+
+// Select the database
+mysqli_select_db($connection, "mydatabase");
+
+// Create the products table
+$createProductsTableQuery = "CREATE TABLE IF NOT EXISTS products (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    image VARCHAR(255) NOT NULL
+)";
+mysqli_query($connection, $createProductsTableQuery);
+
+// Create the favorites table
+$createFavoritesTableQuery = "CREATE TABLE IF NOT EXISTS favorites (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    product_id INT(11) NOT NULL,
+    user_id INT(11) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)";
+mysqli_query($connection, $createFavoritesTableQuery);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Carousel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<body>
+
+<h1>Product Carousel</h1>
+
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <?php
+        // Fetch the products from the database
+        $query = "SELECT * FROM products";
+        $result = mysqli_query($connection, $query);
+
+        $active = true;
+        while ($row = mysqli_fetch_assoc($result)) {
+            $productId = $row['id'];
+            $productTitle = $row['title'];
+            $productPrice = $row['price'];
+            $productImage = $row['image'];
+
+            // Check if the product is favorited by the user
+            $isFavoriteQuery = "SELECT * FROM favorites WHERE product_id = '$productId' AND user_id = '$userId'";
+            $isFavoriteResult = mysqli_query($connection, $isFavoriteQuery);
+            $isFavorite = mysqli_num_rows($isFavoriteResult) > 0;
+            ?>
+            <div class="carousel-item <?php echo $active ? 'active' : ''; ?>">
+                <div class="cards-wrapper">
+                    <div class="card">
+                        <img src="<?php echo $productImage; ?>" class="card-img-top" alt="Product Image">
+                        <button class="btn-love" onclick="toggleLove('<?php echo $productId; ?>')">
+                            <i id="love-<?php echo $productId; ?>" class="bi <?php echo $isFavorite ? 'bi-heart-fill' : 'bi-heart'; ?>"></i>
+                        </button>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $productTitle; ?></h5>
+                            <p class="card-text">Price: <?php echo $productPrice; ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+            $active = false;
+        }
+        ?>
+    </div>
+</div>
+
+<script>
+    function toggleLove(loveID) {
+        var icon = document.getElementById(loveID);
+        if (document.getElementById("username-item").classList.contains('d-none')) {
+
+            swal(
+                'Warning!',
+                'Please login before adding to favorites!',
+                'warning'
+            )
+
+        } else {
+            icon.classList.toggle('bi-heart-fill');
+            icon.classList.toggle('bi-heart');
+
+            // Send an AJAX request to update the favorite status in the database
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'toggle_love.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.status === 'success') {
+                            console.log(response.message);
+                        } else {
+                            console.error(response.message);
+                        }
+                    } else {
+                        console.error('Error: ' + xhr.status);
+                    }
+                }
+            };
+            xhr.send('productId=' + encodeURIComponent(loveID));
+        }
+    }
+</script>
+
+</body>
+</html>
+
