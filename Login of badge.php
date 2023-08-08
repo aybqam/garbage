@@ -7,8 +7,8 @@
 </script>
 
 
- <script>
-    
+    <script>
+
         const loginItem = document.getElementById('login-item');
         const logoutItem = document.getElementById('logout-item');
         const usernameItem = document.getElementById('username-item');
@@ -34,6 +34,8 @@
                 // Get the number of items in the off-canvas menu
                 function updateBadge() {
                     var numItems = document.querySelectorAll('.offcanvas-body .modal-header').length;
+
+                    numItems.style.display = 'none';
 
                     // Update the badge number
                     badge.textContent = numItems;
