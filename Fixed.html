@@ -1,0 +1,126 @@
+Fixed refresh page when click button and fixed the first form is saving in the table when run code without click button.
+
+
+<?php
+// Start the session 
+session_start();
+
+// Database connection info
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "ecommerce";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Create Favorites table if not exists
+$createTable = "CREATE TABLE IF NOT EXISTS Favorites (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200),
+    price DECIMAL(10,2),
+    image VARCHAR(200)
+)";
+
+$conn->query($createTable);
+
+// Handle adding to favorites
+if (isset($_POST["id"])) {
+
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $price = $_POST["price"];
+    $image = $_POST["image
+    
+?>
+
+<div class="card">
+    <img class="card-img-top" src="./image/tshirt.png" alt="Product Image">
+    <form id="form1" method="POST">
+        <button class="btn btn-love" data-toggle="collapse" onclick="toggleLove(1); return false;">
+            <i id="love1" class="bi bi-heart"></i>
+        </button>
+        <input type="hidden" name="id" value="1">
+        <input type="hidden" name="name" value="Product 1">
+        <input type="hidden" name="price" value="1.99">
+        <input type="hidden" name="image" value="./image/tshirt.png">
+    </form>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-2">Product 1</h5>
+            <h5 class="card-title mb-0">$1.99</h5>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="card-subtitle mb-2 text-muted">Add to Cart</h6>
+            <h6><del style="color: red;">$20.99</del></h6>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <img class="card-img-top" src="./image/tshirt-4.png" alt="Product Image">
+    <form id="form2" method="POST">
+       <button class="btn btn-love" data-toggle="collapse" onclick="toggleLove(2); return false;">
+        <i id="love2" class="bi bi-heart"></i>
+        </button>
+        <input type="hidden" name="id" value="2">
+        <input type="hidden" name="name" value="Product 2">
+        <input type="hidden" name="price" value="1.99">
+        <input type="hidden" name="image" value="./image/tshirt-4.png">
+    </form>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-2">Product 2</h5>
+            <h5 class="card-title mb-0">$1.99</h5>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <h6 class="card-subtitle mb-2 text-muted">Add to Cart</h6>
+            <h6><del style="color: red;">$20.99</del></h6>
+        </div>
+    </div>
+</div>
+
+<script>
+
+function toggleLove(productId) {
+    var icon = document.getElementById('love' + productId);
+    var isFilled = icon.classList.contains('bi-heart-fill');
+    if (document.getElementById("username-item")) {
+        if (isFilled) {
+            icon.classList.remove('bi-heart-fill');
+            icon.classList.add('bi-heart');
+            removeFromFavorites(productId);
+        } else {
+            icon.classList.remove('bi-heart');
+            icon.classList.add('bi-heart-fill');
+            addToFavorites(productId);
+        }
+    } else {
+        swal(
+            'Warning!',
+            'Please login before adding to favorites!',
+            'warning'
+        )
+    }
+}
+
+function addToFavorites(productId) {
+    var form = document.getElementById('form' + productId);
+    form.submit();
+}
+
+function removeFromFavorites(productId) {
+    var form = document.getElementById('form' + productId);
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'remove';
+    input.value = '1';
+    form.appendChild(input);
+    form.submit();
+}
+
+</script>
