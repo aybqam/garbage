@@ -1,138 +1,74 @@
-<?php
-// Connect to the MySQL database
-$conn=mysqli_connect("localhost", "username", "password", "database");
 
-// Check the connection
-if (!$conn) {
-die("Connection failed: " . mysqli_connect_error());
-}
+First Page (index.html):
 
-// Check if the heart icon was clicked and the product was added to favorites
-if (isset($_POST['card_id'])) {
-$card_id=$_POST['card_id'];
-$card_title=$_POST['card_title'];
-$card_price=$_POST['card_price'];
-$card_img=$_POST['card_img'];
-
-// Sanitize the input data
-$card_id=filter_var($card_id, FILTER_SANITIZE_NUMBER_INT);
-$card_title=filter_var($card_title, FILTER_SANITIZE_STRING);
-$card_price=filter_var($card_price, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-$card_img=filter_var($card_img, FILTER_SANITIZE_URL);
-
-// Insert the product details into the cards table
-$sql="INSERT INTO cards (card_id, card_title, card_price, card_img) VALUES ('$card_id', '$card_title', '$card_price', '$card_img')";
-if (mysqli_query($conn, $sql)) {
-echo "Product details saved successfully";
-} else {
-echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
-}
-
-// Close the MySQL connection
-mysqli_close($conn);
-?>
-
-<div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="product1.jpg" alt="Product 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Product 1</h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><del>$50</del> $40</h6>
-                            <?php
-                            // Check if the product is already in the favorites list
-                            $card_id=1;
-                            $sql="SELECT * FROM cards WHERE card_id = '$card_id'";
-                            $result=mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0) {
-                            // Product is already in favorites list
-                            $row=mysqli_fetch_assoc($result);
-                            echo '<i class="bi bi-heart-fill" onclick="toggleLove(this)" data-card-id="1" style="color: red;"></i>';
-                            echo '<p>Added to favorites on ' . $row['date_added'] . '</p>';
-                            } else {
-                            // Product is not in favorites list
-                            echo '<i class="bi bi-heart" onclick="toggleLove(this)" data-card-id="1"></i>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="product2.jpg" alt="Product 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Product 2</h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><del>$60</del> $50</h6>
-                            <?php
-                            // Check if the product is already in the favorites list
-                            $card_id=2;
-                            $sql="SELECT * FROM cards WHERE card_id = '$card_id'";
-                            $result=mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0) {
-                            // Product is already in favorites list
-                            $row=mysqli_fetch_assoc($result);
-                            echo '<i class="bi bi-heart-fill" onclick="toggleLove(this)" data-card-id="2" style="color: red;"></i>';
-                            echo '<p>Added to favorites on ' . $row['date_added'] . '</p>';
-                            } else {
-                            // Product is not in favorites list
-                            echo '<i class="bi bi-heart" onclick="toggleLove(this)" data-card-id="2"></i>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="product3.jpg" alt="Product 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Product 3</h5>
-                            <h6 class="card-subtitle mb-2 text-muted"><del>$70</del> $60</h6>
-                            <?php
-                            // Check if the product is already in the favorites list
-                            $card_id=3;
-                            $sql="SELECT * FROM cards WHERE card_id = '$card_id'";
-                            $result=mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0) {
-                            // Product is already in favorites list
-                            $row=mysqli_fetch_assoc($result);
-                            echo '<i class="bi bi-heart-fill" onclick="toggleLove(this)" data-card-id="3" style="color: red;"></i>';
-                            echo '<p>Added to favorites on ' . $row['date_added'] . '</p>';
-                            } else {
-                            // Product is not in favorites list
-                            echo '<i class="bi bi-heart" onclick="toggleLove(this)" data-card-id="3"></i>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </div>
+```html
+<form id="productForm" action="secondPage.php" method="POST">
+    <div class="card" onclick="submitForm()">
+        <img class="card-img-top" src="./image/tshirt.png" alt="Product Image">
+        <button class="btn btn-love" data-toggle="collapse" name="heart" value="1" onclick="toggleLove(this.id); return false;">
+            <i id="love1" class="bi bi-heart"></i>
+        </button>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <input type="hidden" name="name" value="Product 1">
+                <input type="hidden" name="image" value="./image/tshirt.png">
+                <input type="hidden" name="image2" value="./image/tshirt-2.png">
+                <input type="hidden" name="image3" value="./image/tshirt-3.png">
+                <input type="hidden" name="price" value="1.99">
+                <input type="hidden" name="details" value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris">
+                
+                
+                
+                <h5 class="card-title mb-2">Product 1</h5>
+                <h5 class="card-title mb-0">$1.99</h5>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h6 class="card-subtitle mb-2 text-muted">Add to Cart</h6>
+                <h6><del style="color: red;">$20.99</del></h6>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 <script>
-    function toggleLove(icon) {
-        // Get the card ID from the data attribute
-        var card_id = icon.getAttribute("data-card-id");
-
-        // Send an AJAX request to the PHP script to save the product details to the database
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "carousel.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText);
-            }
-        };
-        xhr.send("card_id=" + card_id + "&card_title=" + icon.parentNode.querySelector(".card-title").textContent + "&card_price=" + icon.parentNode.querySelector(".card-subtitle").textContent.replace(/^\D+/g, '') + "&card_img=" + icon.parentNode.parentNode.querySelector(".card-img-top").getAttribute("src"));
-
-        // Toggle the heart icon
-        icon.classList.toggle("bi-heart");
-        icon.classList.toggle("bi-heart-fill");
-        icon.style.color = (icon.classList.contains("bi-heart-fill")) ? "red": "black";
+    function submitForm() {
+        document.getElementById("productForm").submit();
     }
 </script>
+```
+
+Second Page (secondPage.php):
+
+```php
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['name']) && isset($_POST['image']) &&
+isset($_POST['image2']) &&
+isset($_POST['image3']) &&
+isset($_POST['price']) && isset($_POST['details'])) {
+        $name = $_POST['name'];
+        $image = $_POST['image'];
+        $image = $_POST['image2'];
+        $image = $_POST['image3'];             						
+      	$price = $_POST['price'];
+        $details = $_POST['details'];
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Details</title>
+</head>
+<body>
+    <h2>Product Name: <?php echo $name; ?></h2>
+    <img src="<?php echo $image; ?>" alt="Product Image">
+    <h3>Product Price: $<?php echo $price; ?></h3>
+    <p><?php echo $details; ?></p>
+</body>
+</html>
+
+<?php
+    }
+}
+?>
+```
