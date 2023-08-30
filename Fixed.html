@@ -1,40 +1,62 @@
 
-// Create shopping table if not exists
-$shoppingTable = "CREATE TABLE IF NOT EXISTS shopping (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    image VARCHAR(255),
-    image2 VARCHAR(255),
-    image3 VARCHAR(255),
-    name VARCHAR(255),
-    price DECIMAL(10, 2),
-    details VARCHAR(255)
-)";
+<?php
+// Check if the form is submitted for login or signup
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (isset($_POST["login"])) {
+    // Handle login
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    
+    // Perform database query to check if the user exists and the password is correct
+    // ...
+    
+    if ($login_successful) {
+      // Redirect the user to the logged-in page
+      header("Location: logged_in.php");
+      exit();
+    } else {
+      $login_error = "Invalid username or password";
+    }
+  } elseif (isset($_POST["signup"])) {
+    // Handle signup
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    
+    // Perform necessary validation and database operations to create a new user
+    // ...
+    
+    if ($signup_successful) {
+      // Redirect the user to the logged-in page
+      header("Location: logged_in.php");
+      exit();
+    } else {
+      $signup_error = "Error creating the account";
+    }
+  }
+}
+?>
 
-$conn->query($shoppingTable);
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login and Signup</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <?php if (isset($login_error)) { echo "<p>$login_error</p>"; } ?>
+  <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <input type="submit" name="login" value="Log in">
+  </form>
 
+  <h1>Signup</h1>
+  <?php if (isset($signup_error)) { echo "<p>$signup_error</p>"; } ?>
+  <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <input type="submit" name="signup" value="Sign up">
+  </form>
+</body>
+</html>
 
-// Prepare the SQL statement for insertion
-$shoppinginsert = "INSERT INTO shopping (
-image, image2, image3, name, price, details) VALUES
-   
-    ('./image/tshirt.png', './image/tshirt-2.png', './image/tshirt-3.png', 'Product 1', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-  
-    ('./image/tshirt-4.png', './image/tshirt-5.png', './image/tshirt-6.png', 'Product 2', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
- 
-    ('./image/tshirt-7.png', './image/tshirt-8.png', './image/tshirt-9.png', 'Product 3', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-
-    ('./image/tshirt-10.png', './image/tshirt-11.png', './image/tshirt-12.png', 'Product 4', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-
-    ('./image/tshirt-13.png', './image/tshirt-14.png', './image/tshirt-15.png', 'Product 5', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-
-    ('./image/tshirt-16.png', './image/tshirt-17.png', './image/tshirt-18.png', 'Product 6', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-
-    ('./image/tshirt-19.png', './image/tshirt-20.png', './image/tshirt-21.png', 'Product 7', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-
-    ('./image/tshirt-22.png', './image/tshirt-23.png', './image/tshirt-24.png', 'Product 8', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-
-
-    ('./image/tshirt-25.png', './image/tshirt-26.png', './image/tshirt-27.png', 'Product 9', 1.99, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris')";
-
-
-$conn->query($shoppinginsert);
