@@ -2,66 +2,68 @@ https://m.youtube.com/watch?v=_t4c-vxalp4
 
 https://m.youtube.com/watch?v=t32-0YefGzU&ref=morioh.com&utm_source=morioh.com
 
-
 https://m.youtube.com/watch?v=wm5gMKuwSYk&t=50s&ref=morioh.com&utm_source=morioh.com
-<?php
-// Check if the form is submitted for login or signup
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_POST["login"])) {
-    // Handle login
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    
-    // Perform database query to check if the user exists and the password is correct
-    // ...
-    
-    if ($login_successful) {
-      // Redirect the user to the logged-in page
-      header("Location: logged_in.php");
-      exit();
-    } else {
-      $login_error = "Invalid username or password";
-    }
-  } elseif (isset($_POST["signup"])) {
-    // Handle signup
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    
-    // Perform necessary validation and database operations to create a new user
-    // ...
-    
-    if ($signup_successful) {
-      // Redirect the user to the logged-in page
-      header("Location: logged_in.php");
-      exit();
-    } else {
-      $signup_error = "Error creating the account";
-    }
-  }
-}
-?>
+
+
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login and Signup</title>
+  <title>Price Card Example</title>
 </head>
 <body>
-  <h1>Login</h1>
-  <?php if (isset($login_error)) { echo "<p>$login_error</p>"; } ?>
-  <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-    <input type="text" name="username" placeholder="Username" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <input type="submit" name="login" value="Log in">
-  </form>
+  <div class="card">
+    <form id="productForm1" action="shopping.php" method="POST">
+      <img class="card-img-top" src="./image/tshirt.png" alt="Product Image" onclick="submitForm('productForm1')">
+      <input type="hidden" name="id" value="1">
+      <input type="hidden" name="name" value="INTERLACED SHIRT">
+      <input type="hidden" name="image" value="./image/tshirt.png">
+      <input type="hidden" name="image2" value="./image/tshirt-2.png">
+      <input type="hidden" name="image3" value="./image/tshirt-3.png">
+      <input type="hidden" name="price" value="51.99">
+      <input type="hidden" name="details" value="New for Winter 2023, the shirt showcases the CD Interlaced embroidery, offering a new intertwined take on the House initials with the collection's graphic inspiration. Crafted in white cotton poplin, it has a chest patch pocket that frames and highlights the contrasting CD Interlaced signature. Comfortable and easy to wear, the classic shirt will complete an elegant look with tailored pants, or a casual look with jeans.">
+    </form>
 
-  <h1>Signup</h1>
-  <?php if (isset($signup_error)) { echo "<p>$signup_error</p>"; } ?>
-  <form method="POST" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-    <input type="text" name="username" placeholder="Username" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <input type="submit" name="signup" value="Sign up">
-  </form>
+    <form method="POST" action="./PHP/favorite.php" onsubmit="addToFavorites(event, this)">
+      <button class="btn btn-love" data-toggle="collapse" name="heart" value="1" onclick="toggleLove('love1');">
+        <i id="love1" class="bi bi-heart"></i>
+      </button>
+      <input type="hidden" name="id" value="1">
+      <input type="hidden" name="name" value="INTERLACED SHIRT">
+      <input type="hidden" name="price" value="51.99">
+      <input type="hidden" name="image" value="./image/tshirt.png">
+    </form>
+
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-2">INTERLACED SHIRT</h5>
+        <h5 class="card-title mb-0">
+          <span class="price-usd">$51.99</span>
+          <span class="price-lyd"></span>
+        </h5>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <h6 class="card-subtitle mb-2 text-muted">Add to Cart</h6>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://api.fastforex.io/js/v1/fastforex.min.js"></script>
+  <script>
+    const fastForex = new FastForex('ea48ef1530-7d4f9c1ac4-s1lv5f');
+    const priceUSDElement = document.querySelector('.price-usd');
+    const priceLYDElement = document.querySelector('.price-lyd');
+
+    // Fetch the exchange rate from USD to LYD
+    fastForex.getRate('USD', 'LYD').then(response => {
+      const exchangeRate = response.rate;
+      const priceUSD = parseFloat(priceUSDElement.textContent.replace('$', ''));
+      const priceLYD = (priceUSD * exchangeRate).toFixed(2);
+      priceLYDElement.textContent = 'LYD ' + priceLYD;
+    }).catch(error => {
+      console.error(error);
+      // Handle error if exchange rate cannot be fetched
+    });
+  </script>
 </body>
 </html>
-
