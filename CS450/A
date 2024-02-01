@@ -1,72 +1,97 @@
+<style>
+  .field {
+    margin-bottom: 10px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: #777;
+  }
+
+  .field input {
+    display: block;
+    min-width: 250px;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  input[type="submit"] {
+    display: block;
+    padding: 6px 30px;
+    font-size: 14px;
+    background-color: #4460AA;
+    color: #fff;
+    border: none;
+  }
+</style>
+
+<?php
+// Assuming you have established a database connection and retrieved the data into $EmailsResult
+
+// Store the fetched values in arrays
+$to_names = [];
+$to_emails = [];
+
+while ($row = $EmailsResult->fetch(PDO::FETCH_ASSOC)) {
+  $to_names[] = $row['to_name'];
+  $to_emails[] = $row['to_email'];
+}
+?>
+
 <form id="form">
   <div class="field">
-    <label for="to_name">to_name</label>
-    <input type="text" name="to_name" id="to_name">
+    <label for="to_name">To Name</label>
+    <select name="to_name" id="to_name">
+      <?php foreach ($to_names as $name) { ?>
+        <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
+      <?php } ?>
+    </select>
   </div>
   <div class="field">
-    <label for="message">message</label>
+    <label for="to_email">To Email</label>
+    <select name="to_email" id="to_email">
+      <?php foreach ($to_emails as $email) { ?>
+        <option value="<?php echo $email; ?>"><?php echo $email; ?></option>
+      <?php } ?>
+    </select>
+  </div>
+  <div class="field">
+    <label for="message">Message</label>
     <input type="text" name="message" id="message">
   </div>
 
-  <input type="submit" id="button" value="Send Email" >
+  <input type="submit" id="button" value="Send Email">
 </form>
 
-<script type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com/dist/email.min.js"></script>
 <script type="text/javascript">
-  emailjs.init('2N9o4zt_6ODE8fi10')
+  emailjs.init('YOUR_USER_ID'); // Replace with your actual User ID
+
+  const btn = document.getElementById('button');
+
+  document.getElementById('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    btn.value = 'Sending...';
+
+    const serviceID = 'YOUR_SERVICE_ID'; // Replace with your actual Service ID
+    const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your actual Template ID
+
+    const params = {
+      to_name: document.getElementById('to_name').value,
+      to_email: document.getElementById('to_email').value,
+      message: document.getElementById('message').value
+    };
+
+    emailjs.send(serviceID, templateID, params)
+      .then(() => {
+        btn.value = 'Send Email';
+        alert('Email sent!');
+      }, (err) => {
+        btn.value = 'Send Email';
+        alert('An error occurred while sending the email. Please try again later.');
+        console.error('Email error:', err);
+      });
+  });
 </script>
-
-✔️ ✔️ ✔️ ✔️ ✔️ ✔️ ✔️ ✔️ ✔️
-
-.field {
-  margin-bottom: 10px;
-}
-
-.field label {
-  display: block;
-  font-size: 12px;
-  color: #777;
-}
-
-.field input {
-  display: block;
-  min-width: 250px;
-  line-height: 1.5;
-  font-size: 14px;
-}
-
-input[type="submit"] {
-  display: block;
-  padding: 6px 30px;
-  font-size: 14px;
-  background-color: #4460AA;
-  color: #fff;
-  border: none
-}
-
-🔸 🔸 🔸 🔸 🔸 🔸 🔸
-
-const btn = document.getElementById('button');
-
-document.getElementById('form')
-.addEventListener('submit', function(event) {
-   event.preventDefault();
-
-   btn.value = 'Sending...';
-
-   const serviceID = 'default_service';
-   const templateID = 'template_qporh6k';
-
-   emailjs.sendForm(serviceID, templateID, this)
-    .then(() => {
-      btn.value = 'Send Email';
-      alert('Sent!');
-    }, (err) => {
-      btn.value = 'Send Email';
-      alert(JSON.stringify(err));
-    });
-});
-
-
