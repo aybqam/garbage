@@ -1,97 +1,65 @@
-<style>
-  .field {
-    margin-bottom: 10px;
-  }
+require 'path/to/PHPMailer/PHPMailerAutoload.php';
 
-  .field label {
-    display: block;
-    font-size: 12px;
-    color: #777;
-  }
+// Connect to the database
+$servername = "localhost";
+$username = "root";  
+$password = "";
+$dbname = "ecommerce";
 
-  .field input {
-    display: block;
-    min-width: 250px;
-    line-height: 1.5;
-    font-size: 14px;
-  }
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-  input[type="submit"] {
-    display: block;
-    padding: 6px 30px;
-    font-size: 14px;
-    background-color: #4460AA;
-    color: #fff;
-    border: none;
-  }
-</style>
-
-<?php
-// Assuming you have established a database connection and retrieved the data into $EmailsResult
-
-// Store the fetched values in arrays
-$to_names = [];
-$to_emails = [];
-
-while ($row = $EmailsResult->fetch(PDO::FETCH_ASSOC)) {
-  $to_names[] = $row['to_name'];
-  $to_emails[] = $row['to_email'];
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-?>
 
-<form id="form">
-  <div class="field">
-    <label for="to_name">To Name</label>
-    <select name="to_name" id="to_name">
-      <?php foreach ($to_names as $name) { ?>
-        <option value="<?php echo $name; ?>"><?php echo $name; ?></option>
-      <?php } ?>
-    </select>
-  </div>
-  <div class="field">
-    <label for="to_email">To Email</label>
-    <select name="to_email" id="to_email">
-      <?php foreach ($to_emails as $email) { ?>
-        <option value="<?php echo $email; ?>"><?php echo $email; ?></option>
-      <?php } ?>
-    </select>
-  </div>
-  <div class="field">
-    <label for="message">Message</label>
-    <input type="text" name="message" id="message">
-  </div>
+// Perform the SQL query
+$sql = "SELECT username, email, message FROM messages";
+$result = $conn->query($sql);
 
-  <input type="submit" id="button" value="Send Email">
-</form>
+// Check if any rows were returned
+if ($result->num_rows > 0) {
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer;
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com/dist/email.min.js"></script>
-<script type="text/javascript">
-  emailjs.init('YOUR_USER_ID'); // Replace with your actual User ID
+    // Set SMTP configuration
+    $mail->isSMTP();
+    $mail->Host = 'smtp.example.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'your_email@example.com';
+    $mail->Password = 'your_password';
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
 
-  const btn = document.getElementById('button');
+    // Set email content
+    $mail->isHTML(true);
+    $mail->Subject = 'Subject of the email';
 
-  document.getElementById('form').addEventListener('submit', function(event) {
-    event.preventDefault();
+    // Loop through the rows and add recipients and messages
+    while ($row = $result->fetch_assoc()) {
+        $username = $row["username"];
+        $email = $row["email"];
+        $message = $row["message"];
 
-    btn.value = 'Sending...';
+        // Add recipient
+        $mail->addAddress($email, $username);
 
-    const serviceID = 'YOUR_SERVICE_ID'; // Replace with your actual Service ID
-    const templateID = 'YOUR_TEMPLATE_ID'; // Replace with your actual Template ID
+        // Add message
+        $mail->Body = $message;
 
-    const params = {
-      to_name: document.getElementById('to_name').value,
-      to_email: document.getElementById('to_email').value,
-      message: document.getElementById('message').value
-    };
+        // Clear recipients and send the email
+        if ($mail->send()) {
+            echo "Email sent to $email successfully.<br>";
+        } else {
+            echo "Failed to send email to $email. Error: " . $mail->ErrorInfo . "<br>";
+        }
 
-    emailjs.send(serviceID, templateID, params)
-      .then(() => {
-        btn.value = 'Send Email';
-        alert('Email sent!');
-      }, (err) => {
-        btn.value = 'Send Email';
-        alert('An error occurred while sending the email. Please try again later.');
-        console.error('Email error:', err);
-      });
-  });
-</script>
+        // Clear recipients for the next iteration
+        $mail->ClearAllRecipients();
+    }
+} else {
+    echo "No results found.";
+}
+
+// Close the connection
+$conn->close();
