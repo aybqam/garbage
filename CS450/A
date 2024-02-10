@@ -142,14 +142,23 @@ Updated first page (first-page.php):
   <!-- Add the following script to display thealert message on the first page -->
 
 ```html
+<!-- Add the following script to display the SweetAlert message on the first page -->
 <script>
   // Check if the email_sent session variable is set
   <?php if (isset($_SESSION['email_sent'])): ?>
-    // Display the appropriate alert message based on the email_sent value
+    // Display the appropriate SweetAlert message based on the email_sent value
     <?php if ($_SESSION['email_sent']): ?>
-      alert('Success! The message has been sent.');
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'The message has been sent.'
+      });
     <?php else: ?>
-      alert('Warning! Please try again later.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Please try again later.'
+      });
     <?php endif; ?>
 
     // Unset the email_sent session variable
