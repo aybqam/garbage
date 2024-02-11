@@ -1,4 +1,54 @@
-products 
-bakeries 
-catagories 
-for now
+<?php
+// التحقق من إرسال النموذج
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // استلام بيانات النموذج
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // التحقق من صحة كلمة المرور
+    $password_length = strlen($password);
+    $has_uppercase = preg_match('/[A-Z]/', $password);
+    $has_lowercase = preg_match('/[a-z]/', $password);
+    $has_number = preg_match('/\d/', $password);
+
+    if ($password_length >= 8 && $has_uppercase && $has_lowercase && $has_number) {
+        // كلمة المرور صالحة
+        $success = true;
+    } else {
+        // كلمة المرور غير صالحة
+        $success = false;
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>نموذج تسجيل الدخول</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+    <h2>تسجيل الدخول</h2>
+    <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" name="username" required><br>
+
+        <label for="password">كلمة المرور:</label>
+        <input type="password" name="password" required><br>
+
+        <input type="submit" value="تسجيل الدخول">
+    </form>
+
+    <?php if ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
+        <?php if ($success): ?>
+            <script>
+                swal('تم تسجيل الدخول بنجاح!', '', 'success');
+            </script>
+        <?php else: ?>
+            <script>
+                swal('كلمة المرور غير صالحة!', 'يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل، وأن تحتوي على أحرف كبيرة وصغيرة وأرقام.', 'error');
+            </script>
+        <?php endif; ?>
+    <?php endif; ?>
+</body>
+</html>
