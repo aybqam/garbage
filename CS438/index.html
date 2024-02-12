@@ -1,11 +1,125 @@
-What is sequence Diagram 
+1. قاعدة بيانات المستخدمين (Users):
+- رقم المستخدم (user_id)
+- الاسم (name) 
+- البريد الإلكتروني (email)
+- رقم الهاتف (phone)
+- كلمة المرور (password)
+- عنوان المنزل (home_address) 
 
-Loaf.ly is a libyan mobile app developed using flutter and firebse which is made to let libyans whom are eiter unable or don't have enough time to go and get fresh hot bread in order to enjoy the delicous libyan foods or people whom only want a specific type of bread which cannot be found in any regular bakery can just download this app and are able to the following
-Subscribe to any pre made bread package and can select the days and time they want to receive this package right to their door
-get istant delivey on any type of bread
-create their own package and customize it as much as they want
-deliver to someone else anywhere in Tripoli
-Goals of this app
-offer easy and fast way to get the freshest, best bread of YOUR choosing anytime and anywhere you want
-Making signing up and signing in easier for users since the target audience is not usually the youngsters
-offer multiple ways of pay and discounts
+2. قاعدة بيانات حزمة الخبز (Bread Packages):
+- رقم الحزمة (package_id)  
+- أنواع الخبز (bread_types)
+- الكمية (quantity)
+- تاريخ الاشتراك (subscription_date)
+- تاريخ التوصيل (delivery_date)
+- الحالة (status)
+- تفاصيل الدفع (payment_details)
+
+3. قاعدة بيانات طلبات التوصيل (Delivery Requests)
+- رقم الطلب (request_id)
+- تفاصيل الطلب (request_details) 
+- تاريخ الطلب (request_date)
+- تاريخ التوصيل المتوقع (expected_delivery_date)
+- حالة الطلب (status)
+
+4. قاعدة بيانات الدفعات (Payments)
+- رقم الدفعة (payment_id)
+- طريقة الدفع (payment_method)
+- المبلغ (amount) 
+- تاريخ الدفع (payment_date)
+- تفاصيل الدفع (payment_details)
+
+
+➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ 
+
+
+
+عذرًا على الخلط في الرد السابق. لتصميم لوحة تحكم كاملة، يجب إنشاء شاشات إضافية لإدارة بقية البيانات مثل حزم الخبز وطلبات التوصيل والدفعات. هناك العديد من الشاشات التي يمكن إضافتها وتخصيصها وفقًا لاحتياجاتك الخاصة، وفيما يلي مثال لبعض الشاشات الإضافية المحتملة:
+
+1. شاشة إدارة حزم الخبز:
+```dart
+class BreadPackagesScreen extends StatelessWidget {
+  final List<BreadPackage> breadPackages;
+
+  BreadPackagesScreen({required this.breadPackages});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('إدارة حزم الخبز'),
+      ),
+      body: ListView.builder(
+        itemCount: breadPackages.length,
+        itemBuilder: (context, index) {
+          BreadPackage breadPackage = breadPackages[index];
+          return ListTile(
+            title: Text('رقم الحزمة: ${breadPackage.packageId}'),
+            subtitle: Text('تاريخ التسليم: ${breadPackage.deliveryDate.toString()}'),
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+2. شاشة إدارة طلبات التوصيل:
+```dart
+class DeliveryRequestsScreen extends StatelessWidget {
+  final List<DeliveryRequest> deliveryRequests;
+
+  DeliveryRequestsScreen({required this.deliveryRequests});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('إدارة طلبات التوصيل'),
+      ),
+      body: ListView.builder(
+        itemCount: deliveryRequests.length,
+        itemBuilder: (context, index) {
+          DeliveryRequest deliveryRequest = deliveryRequests[index];
+          return ListTile(
+            title: Text('رقم الطلب: ${deliveryRequest.requestId}'),
+            subtitle: Text('تاريخ الطلب: ${deliveryRequest.requestDate.toString()}'),
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+3. شاشة إدارة الدفعات:
+```dart
+class PaymentsScreen extends StatelessWidget {
+  final List<Payment> payments;
+
+  PaymentsScreen({required this.payments});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('إدارة الدفعات'),
+      ),
+      body: ListView.builder(
+        itemCount: payments.length,
+        itemBuilder: (context, index) {
+          Payment payment = payments[index];
+          return ListTile(
+            title: Text('رقم الدفعة: ${payment.paymentId}'),
+            subtitle: Text('تاريخ الدفع: ${payment.paymentDate.toString()}'),
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+يمكنك استخدام هذه الشاشات كنماذج وتعديلها وفقًا لاحتياجاتك الخاصة. يُفترض في هذا المثال أن لديك قائمة من حزم الخبز وطلبات التوصيل والدفعات يتم تمريرها إلى الشاشات المناسبة لعرضها.
+
+يرجى ملاحظة أن هذا هو مثال بسيط لتصميم لوحة تحكم باستخدام Flutter، وقد تحتاج إلى إجراء تعديلات وفقًا لاحتياجاتك الخاصة وهيكل البيانات الذي تعمل معه.
