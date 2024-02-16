@@ -1,0 +1,83 @@
+To implement search functionality in the first page and filter the cards in the second page based on the search query, you can follow these steps:
+
+1. In the first page, add a TextEditingController to handle the search query. Modify the TextField widget as follows:
+
+```dart
+class Header extends StatelessWidget {
+  // ...
+
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    // ...
+    if (!Responsive.isMobile(context))
+      Expanded(
+        flex: 4,
+        child: TextField(
+          controller: searchController, // Add the controller
+          onChanged: (value) {
+            // Handle search query change
+            // You can pass the value to the second page and trigger the filter
+          },
+          // ...
+        ),
+      ),
+    // ...
+  }
+}
+```
+
+2. Pass the search query value from the first page to the second page. Modify the second page widget as follows:
+
+```dart
+class ActivityDetailsCard extends StatelessWidget {
+  final List<BreadModel> breadDetails;
+  final String searchQuery; // Add a search query parameter
+
+  const ActivityDetailsCard({
+    Key? key,
+    required this.breadDetails,
+    required this.searchQuery, // Initialize the search query parameter
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // ...
+  }
+}
+```
+
+3. In the second page, filter the cards based on the search query. Modify the itemBuilder method as follows:
+
+```dart
+itemBuilder: (context, i) {
+  final bread = breadDetails[i];
+  // Check if the bread's value or title contains the search query
+  if (!bread.value.toLowerCase().contains(searchQuery.toLowerCase()) &&
+      !bread.title.toLowerCase().contains(searchQuery.toLowerCase())) {
+    return const SizedBox(); // Skip the card if it doesn't match the search query
+  }
+  return CustomCard(
+    // ...
+  );
+},
+```
+
+4. Finally, in the first page, pass the search query value to the second page when navigating. Modify the navigation code in the first page as follows:
+
+```dart
+onPressed: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ActivityDetailsCard(
+        breadDetails: breadDetails,
+        searchQuery: searchController.text, // Pass the search query
+      ),
+    ),
+  );
+},
+```
+
+With these modifications, you can search for specific cards based on the search query entered in the first page TextField, and the second page will filter and display only the matching cards. 
