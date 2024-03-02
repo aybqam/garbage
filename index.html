@@ -1,204 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/widgets/custom_card.dart';
-import 'package:firebase_database/firebase_database.dart';
+# Check the instructions here on how to use it mass grave[.]dev
 
-class PreadPackage {
-  final String icon;
-  final String value;
-  final String quantity;
-  final String value2;
-  final String delivery;
-  final String data;
-  final String amount;
-  final double price;
+$ErrorActionPreference = "Stop"
+# Enable TLSv1.2 for compatibility with older clients
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
-  PreadPackage({
-    required this.icon,
-    required this.value,
-    required this.quantity,
-    required this.value2,
-    required this.delivery,
-    required this.data,
-    required this.amount,
-    required this.price,
-  });
+$DownloadURL = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/master/MAS/All-In-One-Version/MAS_AIO-CRC32_63055B8E.cmd'
+$DownloadURL2 = 'https://bitbucket.org/WindowsAddict/microsoft-activation-scripts/raw/master/MAS/All-In-One-Version/MAS_AIO-CRC32_63055B8E.cmd'
 
-  factory PreadPackage.fromSnapshot(DataSnapshot snapshot) {
-    final data = snapshot.value as Map<dynamic, dynamic>;
-    return PreadPackage(
-      icon: data['icon'],
-      value: data['value'],
-      quantity: data['quantity'],
-      value2: data['value2'],
-      delivery: data['delivery'],
-      data: data['data'],
-      amount: data['amount'],
-      price: data['price'].toDouble(),
-    );
-  }
+$rand = Get-Random -Maximum 99999999
+$isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
+$FilePath = if ($isAdmin) { "$env:SystemRoot\Temp\MAS_$rand.cmd" } else { "$env:TEMP\MAS_$rand.cmd" }
+
+try {
+    $response = Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing
+}
+catch {
+    $response = Invoke-WebRequest -Uri $DownloadURL2 -UseBasicParsing
 }
 
-class ActivityDetailsCard extends StatelessWidget {
-  ActivityDetailsCard({Key? key}) : super(key: key);
+$ScriptArgs = "$args "
+$prefix = "@REM $rand `r`n"
+$content = $prefix + $response
+Set-Content -Path $FilePath -Value $content
 
-  final DatabaseReference _databaseReference =
-      FirebaseDatabase.instance.reference().child('PreadPackages');
+Start-Process $FilePath $ScriptArgs -Wait
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Event>(
-      future: _databaseReference.once(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final dataSnapshot = snapshot.data!.snapshot;
-          final data = dataSnapshot.value as Map<dynamic, dynamic>;
-          final breadDetails = data.entries
-              .map((entry) => PreadPackage.fromSnapshot(dataSnapshot.child(entry.key)))
-              .toList();
-
-          return ListView.builder(
-            itemCount: breadDetails.length,
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemBuilder: (context, i) {
-              return Column(
-                children: [
-                  if (i == 0)
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Column(
-                        children: [
-                          Text(
-                            "عرض المنتجات",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 12.0),
-                        ],
-                      ),
-                    ),
-                  CustomCard(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 4),
-                              child: Image.asset(
-                                breadDetails[i].icon,
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15, bottom: 4),
-                              child: Text(
-                                breadDetails[i].value,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // Rest of your code
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12.0),
-                ],
-              );
-            },
-          );
-        } else if (snapshot.hasError) {
-          return const Text('Error loading data from Firebase');
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
-}
-
-
-First Page (index.html):
-
-```html
-<form id="productForm" action="secondPage.php" method="POST">
-    <div class="card" onclick="submitForm()">
-        <img class="card-img-top" src="./image/tshirt.png" alt="Product Image">
-        <button class="btn btn-love" data-toggle="collapse" name="heart" value="1" onclick="toggleLove(this.id); return false;">
-            <i id="love1" class="bi bi-heart"></i>
-        </button>
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <input type="hidden" name="name" value="Product 1">
-                <input type="hidden" name="image" value="./image/tshirt.png">
-                <input type="hidden" name="image2" value="./image/tshirt-2.png">
-                <input type="hidden" name="image3" value="./image/tshirt-3.png">
-                <input type="hidden" name="price" value="1.99">
-                <input type="hidden" name="details" value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris">
-                
-                
-                
-                <h5 class="card-title mb-2">Product 1</h5>
-                <h5 class="card-title mb-0">$1.99</h5>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <h6 class="card-subtitle mb-2 text-muted">Add to Cart</h6>
-                <h6><del style="color: red;">$20.99</del></h6>
-            </div>
-        </div>
-    </div>
-</form>
-
-<script>
-    function submitForm() {
-        document.getElementById("productForm").submit();
-    }
-</script>
-```
-
-Second Page (secondPage.php):
-
-```php
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['name']) && isset($_POST['image']) &&
-isset($_POST['image2']) &&
-isset($_POST['image3']) &&
-isset($_POST['price']) && isset($_POST['details'])) {
-        $name = $_POST['name'];
-        $image = $_POST['image'];
-        $image = $_POST['image2'];
-        $image = $_POST['image3'];             						
-      	$price = $_POST['price'];
-        $details = $_POST['details'];
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Product Details</title>
-</head>
-<body>
-    <h2>Product Name: <?php echo $name; ?></h2>
-    <img src="<?php echo $image; ?>" alt="Product Image">
-    <h3>Product Price: $<?php echo $price; ?></h3>
-    <p><?php echo $details; ?></p>
-</body>
-</html>
-
-<?php
-    }
-}
-?>
-```
+$FilePaths = @("$env:TEMP\MAS*.cmd", "$env:SystemRoot\Temp\MAS*.cmd")
+foreach ($FilePath in $FilePaths) { Get-Item $FilePath | Remove-Item }
