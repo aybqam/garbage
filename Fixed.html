@@ -1,69 +1,40 @@
-https://m.youtube.com/watch?v=_t4c-vxalp4
+I need another two of the major functionality and features listed in your original requirements document. ○ Implement at least two different design patterns into your code.. ○ Yoursystem MUST implement and match all the classes and methods provided in the design stage.
 
-https://m.youtube.com/watch?v=t32-0YefGzU&ref=morioh.com&utm_source=morioh.com
+Creational Patterns
 
-https://m.youtube.com/watch?v=wm5gMKuwSYk&t=50s&ref=morioh.com&utm_source=morioh.com
+🔹 Singleton  
+🔹 Factory  
+🔹 Abstract factory
+🔹 Builder 
+🔹 Prototype 
+🔹 Flyweight
+
+
+Structural patterns
+
+🔹 Adapter 
+🔹 Composite 
+🔹 Decorator 
+🔹 Facade 
+🔹 Proxy 
+
+
+Behavioral patterns
+
+🔹 Observer 
+🔹 Strategy  
+🔹 Command 
+🔹 Iterator 
+🔹 Template Method
+
+Concurrency patterns
+
+🔹 Lock 
+🔹 Producer-Consumer 
+🔹 Read-Write Lock 
+🔹 Barrier 
+🔹 Thread Pool
 
 
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Price Card Example</title>
-</head>
-<body>
-  <div class="card">
-    <form id="productForm1" action="shopping.php" method="POST">
-      <img class="card-img-top" src="./image/tshirt.png" alt="Product Image" onclick="submitForm('productForm1')">
-      <input type="hidden" name="id" value="1">
-      <input type="hidden" name="name" value="INTERLACED SHIRT">
-      <input type="hidden" name="image" value="./image/tshirt.png">
-      <input type="hidden" name="image2" value="./image/tshirt-2.png">
-      <input type="hidden" name="image3" value="./image/tshirt-3.png">
-      <input type="hidden" name="price" value="51.99">
-      <input type="hidden" name="details" value="New for Winter 2023, the shirt showcases the CD Interlaced embroidery, offering a new intertwined take on the House initials with the collection's graphic inspiration. Crafted in white cotton poplin, it has a chest patch pocket that frames and highlights the contrasting CD Interlaced signature. Comfortable and easy to wear, the classic shirt will complete an elegant look with tailored pants, or a casual look with jeans.">
-    </form>
 
-    <form method="POST" action="./PHP/favorite.php" onsubmit="addToFavorites(event, this)">
-      <button class="btn btn-love" data-toggle="collapse" name="heart" value="1" onclick="toggleLove('love1');">
-        <i id="love1" class="bi bi-heart"></i>
-      </button>
-      <input type="hidden" name="id" value="1">
-      <input type="hidden" name="name" value="INTERLACED SHIRT">
-      <input type="hidden" name="price" value="51.99">
-      <input type="hidden" name="image" value="./image/tshirt.png">
-    </form>
-
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-2">INTERLACED SHIRT</h5>
-        <h5 class="card-title mb-0">
-          <span class="price-usd">$51.99</span>
-          <span class="price-lyd"></span>
-        </h5>
-      </div>
-      <div class="d-flex justify-content-between align-items-center">
-        <h6 class="card-subtitle mb-2 text-muted">Add to Cart</h6>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://api.fastforex.io/js/v1/fastforex.min.js"></script>
-  <script>
-    const fastForex = new FastForex('ea48ef1530-7d4f9c1ac4-s1lv5f');
-    const priceUSDElement = document.querySelector('.price-usd');
-    const priceLYDElement = document.querySelector('.price-lyd');
-
-    // Fetch the exchange rate from USD to LYD
-    fastForex.getRate('USD', 'LYD').then(response => {
-      const exchangeRate = response.rate;
-      const priceUSD = parseFloat(priceUSDElement.textContent.replace('$', ''));
-      const priceLYD = (priceUSD * exchangeRate).toFixed(2);
-      priceLYDElement.textContent = 'LYD ' + priceLYD;
-    }).catch(error => {
-      console.error(error);
-      // Handle error if exchange rate cannot be fetched
-    });
-  </script>
-</body>
-</html>
