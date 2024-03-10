@@ -1,71 +1,28 @@
-<div class="swatch clearfix" data-option-index="1">
-    <br>
-    <h6>Color: </h6>
-    <div data-value="Blue" class="swatch-element color blue available">
-        <div class="tooltip">
-            Blue
-        </div>
-        <input quickbeam="color" id="swatch-1-blue" type="radio" name="option-1" value="Blue" checked />
-        <label for="swatch-1-blue" style="border-color: blue;">
-            <img class="crossed-out" />
-            <span style="background-color: blue;"></span>
-        </label>
-    </div>
-    <div data-value="Red" class="swatch-element color red available">
-        <div class="tooltip">
-            Red
-        </div>
-        <input quickbeam="color" id="swatch-1-red" type="radio" name="option-1" value="Red" />
-        <label for="swatch-1-red" style="border-color: red;">
-            <img class="crossed-out" />
-            <span style="background-color: red;"></span>
-        </label>
-    </div>
-        <div data-value="yellow" class="swatch-element color yellow available">
-        <div class="tooltip">
-            yellow
-        </div>
-        <input quickbeam="color" id="swatch-1-yellow" type="radio" name="option-1" value="yellow" />
-        <label for="swatch-1-yellow" style="border-color: yellow;">
-            <img class="crossed-out" />
-            <span style="background-color: yellow;"></span>
-        </label>
-    </div>
+بالطبع! يمكننا توسيع المخطط باستخدام مستوى 1 لتفصيل العمليات الفرعية وتدفق البيانات بشكل أكثر تفصيلاً. هنا هو مثال لمخطط تدفق البيانات مستوى 1 لموقع يحتوي على سلة للتسوق وقائمة المفضلة، ويتضمن صفحة خاصة بالإدارة لإرسال التخفيضات:
 
-    <div id="green-black-container" style="display: none;">
-        <div data-value="Green" class="swatch-element color green available">
-            <div class="tooltip">
-                Green
-            </div>
-            <input quickbeam="color" id="swatch-1-green" type="radio" name="option-1" value="Green" />
-            <label for="swatch-1-green" style="border-color: green;">
-                <img class="crossed-out" />
-                <span style="background-color: green;"></span>
-            </label>
-        </div>
-        <div data-value="Black" class="swatch-element color black available">
-            <div class="tooltip">
-                Black
-            </div>
-            <input quickbeam="color" id="swatch-1-black" type="radio" name="option-1" value="Black" />
-            <label for="swatch-1-black" style="border-color: black;">
-                <img class="crossed-out" />
-                <span style="background-color: black;"></span>
-            </label>
-        </div>
-    </div>
-    <button id="show-colors-btn">Show More Colors</button>
-</div>
+مستوى 0:
+1. المستخدم
+2. سلة التسوق
+3. قائمة المفضلة
+4. الدفع
+5. معالجة الطلب
+6. الشحن
 
-<script>
-    document.getElementById("show-colors-btn").addEventListener("click", function() {
-        var container = document.getElementById("green-black-container");
-        if (container.style.display === "none") {
-            container.style.display = "block";
-            document.getElementById("show-colors-btn").textContent = "Hide Colors";
-        } else {
-            container.style.display = "none";
-            document.getElementById("show-colors-btn").textContent = "Show More Colors";
-        }
-    });
-</script>         
+صفحة الإدارة (مستوى 0):
+7. الإدارة
+8. إرسال التخفيضات
+
+مستوى 1:
+2.1 إضافة منتج للسلة: يقوم المستخدم بتحديد المنتج وإضافته إلى سلة التسوق.
+2.2 إزالة منتج من السلة: يمكن للمستخدم إزالة منتج محدد من سلة التسوق.
+2.3 تعديل كمية المنتج: يمكن للمستخدم تعديل كمية المنتج في سلة التسوق.
+3.1 إضافة منتج لقائمة المفضلة: يمكن للمستخدم إضافة منتج إلى قائمة المفضلة.
+3.2 إزالة منتج من قائمة المفضلة: يمكن للمستخدم إزالة منتج محدد من قائمة المفضلة.
+4.1 اختيار وسيلة الدفع: يقوم المستخدم بتحديد وسيلة الدفع المفضلة لإتمام الشراء.
+5.1 تأكيد الطلب: يتم تأكيد الطلب المدفوع وتجهيزه للشحن.
+6.1 تعيين طلب الشحن: يتم تعيين طلب الشحن للشركة المختصة بالشحن.
+8.1 إنشاء رسالة تخفيضات: يقوم المدير بإنشاء رسالة تحتوي على التخفيضات المراد إرسالها للمستخدمين.
+8.2 تحديد المستخدمين المستهدفين: يتم تحديد المستخدمين المستهدفين لإرسال رسالة التخفيضات لهم.
+8.3 إرسال رسالة التخفيضات: يتم إرسال رسالة التخفيضات للمستخدمين المستهدفين.
+
+يمكنك استخدام DFD لتصميم هذا المستوى 1 من المخطط، ويمكن توسيعه بمستويات أعمق لتفصيل العمليات الفرعية وتدفق البيانات بشكل أكثر دقة.
