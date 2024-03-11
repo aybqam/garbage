@@ -1,7 +1,7 @@
 {
   "name": "Fun Games",
   "short_name": "Fun Games",
-  "start_url": ".",
+  "start_url": "https://ecommerce-diorstore.000webhostapp.com/index.php",
   "display": "standalone",
   "background_color": "#4169E1",
   "theme_color": "#4169E1",
