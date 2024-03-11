@@ -3,8 +3,8 @@
   "short_name": "Style Hub",
   "start_url": "https://ecommerce-diorstore.000webhostapp.com/index.php",
   "display": "standalone",
-  "background_color": "#4169E1",
-  "theme_color": "#4169E1",
+  "background_color": "#1a75ff",
+  "theme_color": "#1a75ff",
   "icons": [{
     "src": "./Logo.png",
     "sizes": "192x192",
