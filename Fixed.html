@@ -1,6 +1,3 @@
-<!-- Add the popover trigger -->
-<a href="#" id="navbarDropdownMenuLink" data-bs-toggle="popover" data-bs-placement="bottom">Dropdown</a>
-
 <!-- Add the popover content -->
 <div id="popover-content" class="d-none">
     <ul class="dropdown-menu dropdown-menu-end person-menu">
@@ -21,7 +18,7 @@
 
 <!-- Initialize the popover -->
 <script>
-    var popover = new bootstrap.Popover(document.getElementById('navbarDropdownMenuLink'), {
+    var popover = new bootstrap.Popover(null, {
         container: 'body',
         html: true,
         content: function () {
