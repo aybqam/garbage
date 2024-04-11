@@ -1,124 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product Image Zoom</title>
-    <!-- Stylesheet -->
-    <style>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-.image-container {
-  width: 30%;
-  margin: 5% 0 0 5%;
-}
-img {
-  max-width: 100%;
-}
-#overlay {
-  display: none;
-  background: url("shoe-img.jpg");
-  position: absolute;
-  width: 25%;
-  height: 35%;
-  margin-top: -30%;
-  margin-left: 50%;
-  border: 2px solid #555;
-  z-index: 1000;
-  background-repeat: no-repeat;
-}
-#mouse-overlay {
-  cursor: zoom-in;
-  position: absolute;
-  width: 2em;
-  height: 2em;
-  transform: translate(-50%, -50%);
-  background-color: rgba(245, 245, 245, 0.6);
-  border-radius: 50%;
-}
-@media only screen and (max-width: 768px) {
-  .image-container {
-    width: 55%;
-  }
-  #overlay {
-    margin-left: 70%;
-    width: 25%;
-    height: 15%;
-  }
-}
-    </style>
-  </head>
-  <body>
-    <div class="image-container" id="image-container">
-      <img src="shoe-img.jpg" id="product-image" alt="shoe" />
-    </div>
-    <div id="mouse-overlay"></div>
-    <div id="overlay"></div>
-    <!-- Script -->
-    <script>
-let imageContainer = document.getElementById("image-container");
-let productImage = document.getElementById("product-image");
-let overlay = document.getElementById("overlay");
-let mouseOverlay = document.getElementById("mouse-overlay");
+<!-- Add the popover trigger -->
+<a href="#" id="navbarDropdownMenuLink" data-bs-toggle="popover" data-bs-placement="bottom">Dropdown</a>
 
-let events = {
-  mouse: {
-    move: "mousemove",
-  },
-  touch: {
-    move: "touchmove",
-  },
-};
+<!-- Add the popover content -->
+<div id="popover-content" class="d-none">
+    <ul class="dropdown-menu dropdown-menu-end person-menu">
+        <?php if (!isset($_SESSION['valid'])) { ?>
+        <li>
+            <a class="dropdown-item" href="Login.php">Login</a>
+        </li>
+        <?php } else { ?>
+        <li>
+            <a class="dropdown-item" href="#"><?php echo $_SESSION['username']; ?></a>
+        </li>
+        <li>
+            <a id="username-item" class="dropdown-item" href="logout.php">Logout</a>
+        </li>
+        <?php } ?>
+    </ul>
+</div>
 
-let deviceType = "";
-
-function isTouchDevice() {
-  try {
-    deviceType = "touch";
-    document.createEvent("TouchEvent");
-    return true;
-  } catch (e) {
-    deviceType = "mouse";
-    return false;
-  }
-}
-
-//hides overlay
-const hideElement = () => {
-  overlay.style.display = "none";
-  mouseOverlay.style.display = "none";
-};
-
-isTouchDevice();
-
-imageContainer.addEventListener(events[deviceType].move, (e) => {
-  try {
-    var x = !isTouchDevice() ? e.pageX : e.touches[0].pageX;
-    var y = !isTouchDevice() ? e.pageY : e.touches[0].pageY;
-  } catch (e) {}
-  let imageWidth = imageContainer.offsetWidth;
-  let imageHeight = imageContainer.offsetHeight;
-  if (
-    imageWidth - (x - imageContainer.offsetLeft) < 15 ||
-    x - imageContainer.offsetLeft < 15 ||
-    imageHeight - (y - imageContainer.offsetTop) < 15 ||
-    y - imageContainer.offsetTop < 15
-  ) {
-    hideElement();
-  } else {
-    overlay.style.display = "block";
-    mouseOverlay.style.display = "inline-block";
-  }
-
-  var posX = ((x - imageContainer.offsetLeft) / imageWidth).toFixed(4) * 100;
-  var posY = ((y - imageContainer.offsetTop) / imageHeight).toFixed(4) * 100;
-  overlay.style.backgroundPosition = posX + "%" + posY + "%";
-
-  mouseOverlay.style.top = y + "px";
-  mouseOverlay.style.left = x + "px";
-});
-    </script>
-  </body>
-</html>
+<!-- Initialize the popover -->
+<script>
+    var popover = new bootstrap.Popover(document.getElementById('navbarDropdownMenuLink'), {
+        container: 'body',
+        html: true,
+        content: function () {
+            return document.getElementById('popover-content').innerHTML;
+        }
+    });
+</script>
