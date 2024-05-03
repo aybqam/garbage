@@ -1,0 +1,23 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['heart'])) {
+        $id = $_POST['id'];
+
+        // Toggle the state of the heart button for this product
+        $_SESSION['favorites'][$id] = !isset($_SESSION['favorites'][$id]);
+    }
+}
+
+// Check if this product is a favorite
+$isFavorite = isset($_SESSION['favorites'][$id]);
+?>
+
+<form method="POST" action="./PHP/favorite.php" onsubmit="addToFavorites(event, this)">
+    <button class="btn btn-love" data-toggle="collapse" name="heart" value="1" onclick="toggleLove('love1');">
+        <i id="love1" class="bi bi-heart <?php echo $isFavorite ? 'fill' : ''; ?>"></i>
+    </button>
+    <input type="hidden" name="id" value="1">
+    <!-- Other hidden inputs... -->
+</form>
