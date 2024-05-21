@@ -1,38 +1,7 @@
-Change to Horizontal using button
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-  <style>
-    .card {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card.horizontal {
-      flex-direction: row;
-    }
-  </style>
-</head>
-<body>
-  <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-  </div>
-
-  <button onclick="toggleCardLayout()">Toggle Layout</button>
-
-  <script>
-    function toggleCardLayout() {
-      var card = document.querySelector('.card');
-      card.classList.toggle('horizontal');
-    }
-  </script>
-</body>
-</html>
+// Update total
+function updateTotal(row) {
+  const price = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace('$', ''));
+  const quantity = parseInt(row.querySelector('.quantity').value, 10);
+  const total = (price * quantity).toFixed(2);
+  row.querySelector('td:nth-child(5)').textContent = '$' + total;
+}
