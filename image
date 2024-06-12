@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Image Upload</h1>
+
+<form action="upload.php" method="POST" enctype="multipart/form-data">
+  <input type="file" name="image">
+  <input type="submit" value="Upload">
+</form>
+
+<?php
+if(isset($_FILES['image'])){
+    $file = $_FILES['image'];
+    
+    // File properties
+    $file_name = $file['name'];
+    $file_tmp = $file['tmp_name'];
+    $file_size = $file['size'];
+    $file_error = $file['error'];
+    
+    // File extension
+    $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    
+    // Allowed extensions
+    $allowed_ext = array('jpg', 'jpeg', 'png');
+    
+    if(in_array($file_ext, $allowed_ext)){
+        if($file_error === 0){
+            if($file_size <= 5242880){ // Maximum file size: 5MB (in bytes)
+                // Generate a unique filename to avoid overwriting existing files
+                $new_filename = uniqid('', true) . '.' . $file_ext;
+                
+                // Destination directory to save the uploaded file
+                $destination = 'images/' . $new_filename;
+                
+                // Move the uploaded file to the destination directory
+                if(move_uploaded_file($file_tmp, $destination)){
+                    echo 'File uploaded successfully.';
+                    
+                    // Display the uploaded image
+                    echo '<br><br>';
+                    echo '<img src="' . $destination . '" alt="Uploaded Image">';
+                } else {
+                    echo 'Error occurred while uploading the file.';
+                }
+            } else {
+                echo 'File size exceeds the maximum allowed limit (5MB).';
+            }
+        } else {
+            echo 'Error occurred: ' . $file_error;
+        }
+    } else {
+        echo 'Invalid file extension. Only JPG, JPEG, and PNG files are allowed.';
+    }
+}
+?>
+
+</body>
+</html>
