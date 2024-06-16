@@ -1,9 +1,13 @@
-https://phpgurukul.com/crud-operation-with-image-using-php-and-mysqli/#
+<?php
+// Check if the file input field has a file selected
+if(isset($_FILES['file']) && $_FILES['file']['name'] != '') {
+    // File has been uploaded
+    echo "File has been uploaded.";
+} else {
+    // File has not been uploaded
+    echo "No file uploaded.";
+}
+?>
 
 
-➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕ ➕
-
-
-https://github.com/harmansaggu/php-crud-with-image-upload
-
-
+    <input type="file" name="image" accept="image/*" />
