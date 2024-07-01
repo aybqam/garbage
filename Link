@@ -1,3 +1,6 @@
-		https://github.com/codershiyar/php/blob/master/LESSON%2075%20-%20%D8%A7%D9%84%D8%AF%D8%B1%D8%B3/app/.htaccess
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 
     <input type="file" name="image" accept="image/*" />
