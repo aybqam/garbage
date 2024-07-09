@@ -5,4 +5,4 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     <input type="file" name="image" accept="image/*" />
 
-https://github.com/AsmrProg-YT/File-Sharing-Platform-UI?ref=morioh.com&utm_source=morioh.com
+
