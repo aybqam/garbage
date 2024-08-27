@@ -1,35 +1,47 @@
-cls
-@ECHO OFF
-title Folder Locker
-if EXIST "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" goto UNLOCK
-if NOT EXIST Locker goto MDLOCKER
-:CONFIRM
-echo Are you sure you want to lock the folder? (Y/N)
-set/p "cho=>"
-if %cho%==Y goto LOCK
-if %cho%==y goto LOCK
-if %cho%==n goto END
-if %cho%==N goto END
-echo Invalid choice.
-goto CONFIRM
-:LOCK
-ren Locker "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
-attrib +h +s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
-echo Folder locked.
-goto End
-:UNLOCK
-echo Enter password to unlock the folder.
-set/p "pass=>"
-if NOT %pass%==YourPasswordHere goto FAIL
-attrib -h -s "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
-ren "Control Panel.{21EC2020-3AEA-1069-A2DD-08002B30309D}" Locker
-echo Folder unlocked.
-goto End
-:FAIL
-echo Invalid password.
-goto end
-:MDLOCKER
-md Locker
-echo Locker created successfully.
-goto End
-:End
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorite Products</title>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <!-- Include React Router -->
+  <script src="https://unpkg.com/react-router-dom@6.0.2/umd/react-router-dom.min.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>
+    const { BrowserRouter, Route, Link, useHistory } = ReactRouterDOM;
+
+    const App = () => {
+      let history = useHistory();
+
+      const handleButtonClick = (productId) => {
+        // Redirect using React Router
+        history.push(`/product/${productId}`);
+      }
+
+      return (
+        <BrowserRouter>
+          <div className="offcanvas-body">
+            <?php
+            // Your PHP code here
+            ?>
+          </div>
+          
+          <Route path="/product/:productId">
+            {/* Your product component */}
+          </Route>
+        </BrowserRouter>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+
+</html>
