@@ -1,30 +1,125 @@
-<link rel="manifest" href="./manifest.json">
+<div class="container my-5">
+    <h1 class="text-center">Shopping Cart</h1>
 
-بالطبع! يمكننا توسيع المخطط باستخدام مستوى 1 لتفصيل العمليات الفرعية وتدفق البيانات بشكل أكثر تفصيلاً. هنا هو مثال لمخطط تدفق البيانات مستوى 1 لموقع يحتوي على سلة للتسوق وقائمة المفضلة، ويتضمن صفحة خاصة بالإدارة لإرسال التخفيضات:
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-md-12 table-responsive mb-5">
+                <table class="table">
+                    <thead>
+                        <tr class="table-primary">
+                            <th></th>
+                            <th>Product</th>
+                            <th>Color</th>
+                            <th>Size</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Your PHP code to fetch and display cart items -->
 
-مستوى 0:
-1. المستخدم
-2. سلة التسوق
-3. قائمة المفضلة
-4. الدفع
-5. معالجة الطلب
-6. الشحن
+                        <tr data-id="<?php echo $id; ?>">
+                            <!-- Existing columns -->
 
-صفحة الإدارة (مستوى 0):
-7. الإدارة
-8. إرسال التخفيضات
+                            <td class="text-center align-middle">
+                                <div class="input-group d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-outline-secondary btn-minus" type="button">-</button>
+                                    <input type="number" value="<?php echo $quantity; ?>" class="form-control quantity" data-id="<?php echo $id; ?>" />
+                                    <button class="btn btn-outline-secondary btn-plus" type="button">+</button>
+                                </div>
+                            </td>
 
-مستوى 1:
-2.1 إضافة منتج للسلة: يقوم المستخدم بتحديد المنتج وإضافته إلى سلة التسوق.
-2.2 إزالة منتج من السلة: يمكن للمستخدم إزالة منتج محدد من سلة التسوق.
-2.3 تعديل كمية المنتج: يمكن للمستخدم تعديل كمية المنتج في سلة التسوق.
-3.1 إضافة منتج لقائمة المفضلة: يمكن للمستخدم إضافة منتج إلى قائمة المفضلة.
-3.2 إزالة منتج من قائمة المفضلة: يمكن للمستخدم إزالة منتج محدد من قائمة المفضلة.
-4.1 اختيار وسيلة الدفع: يقوم المستخدم بتحديد وسيلة الدفع المفضلة لإتمام الشراء.
-5.1 تأكيد الطلب: يتم تأكيد الطلب المدفوع وتجهيزه للشحن.
-6.1 تعيين طلب الشحن: يتم تعيين طلب الشحن للشركة المختصة بالشحن.
-8.1 إنشاء رسالة تخفيضات: يقوم المدير بإنشاء رسالة تحتوي على التخفيضات المراد إرسالها للمستخدمين.
-8.2 تحديد المستخدمين المستهدفين: يتم تحديد المستخدمين المستهدفين لإرسال رسالة التخفيضات لهم.
-8.3 إرسال رسالة التخفيضات: يتم إرسال رسالة التخفيضات للمستخدمين المستهدفين.
+                            <!-- Existing columns -->
 
-يمكنك استخدام DFD لتصميم هذا المستوى 1 من المخطط، ويمكن توسيعه بمستويات أعمق لتفصيل العمليات الفرعية وتدفق البيانات بشكل أكثر دقة.
+                        </tr>
+                        
+                        <!-- End of your PHP loop -->
+
+                    </tbody>
+                </table>
+                
+                <div class="pagination-container">
+                    <ul class="pagination">
+                    </ul>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInputs = document.querySelectorAll('.quantity');
+        
+        quantityInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const productId = this.getAttribute('data-id');
+                const newQuantity = this.value;
+                
+                // Send an AJAX request to update the quantity in the database
+                // You can use fetch API or XMLHttpRequest here
+                // Example using fetch:
+                fetch('update_quantity.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: productId, quantity: newQuantity }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Quantity updated successfully');
+                        // You may update the total price here if needed
+                    } else {
+                        console.error('Failed to update quantity');
+                    }
+                })
+                .catch(error => console.error('Error updating quantity:', error));
+            });
+        });
+    });
+</script>
+
+
+
+
+<?php
+// Assuming you have a database connection established
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "ecommerce";
+
+// Create connection with the database name
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check if the request is a POST request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve the product ID and new quantity from the request body
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    $productId = $data['id'];
+    $newQuantity = $data['quantity'];
+
+    // Update the quantity in the database
+    $updateQuery = "UPDATE your_table SET quantity = $newQuantity WHERE id = $productId";
+
+    if ($conn->query($updateQuery) === TRUE) {
+        $response = ['success' => true, 'message' => 'Quantity updated successfully'];
+        echo json_encode($response);
+    } else {
+        $response = ['success' => false, 'message' => 'Failed to update quantity'];
+        echo json_encode($response);
+    }
+} else {
+    $response = ['success' => false, 'message' => 'Invalid request method'];
+    echo json_encode($response);
+}
+
+// Close the database connection
+$conn->close();
+?>
