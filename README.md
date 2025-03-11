@@ -12,3 +12,8 @@ https://www.facebook.com/groups/1252199519176429/permalink/1252235942506120/?mib
 ```
 composer create-project laravel/laravel:^12.0 example-app
 ```
+
+
+```
+php artisan serve
+```
