@@ -42,30 +42,10 @@ php artisan serve
 
 
 ```
-npm config set legacy-peer-deps true
-```
-```
 npm install -g firebase-tools
 ```
-<br><br><br>
-
-``` 
-Get-ExecutionPolicy -List
 ```
-
+firebase login 
 ```
-Set-ExecutionPolicy Unrestricted
-```
-
-```
-Set-ExecutionPolicy Unrestricted -Force
-```
-
-```
-npm i firebase
-```
-
-```
-npm install -g firebase-tools
-```
+<br>
 
