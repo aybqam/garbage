@@ -19,14 +19,6 @@ https://portofolio-main-ebon.vercel.app/?fbclid=IwZXh0bgNhZW0CMTEAAR0wKZGeKeJsmb
 https://www.coursat.org/
 ```
 
-```
-https://www.facebook.com/groups/2242813186179741/permalink/2243030959491297/?app=fbl
-```
-
-```
-https://www.facebook.com/3623487581275814/videos/1071148464190172/?idorvanity=854602313540039&app=fbl
-```
-
 
 <br>
 
