@@ -58,3 +58,19 @@ firebase login
 ```
 https://m.youtube.com/watch?v=Vu1t4sJ4g8U&pp=0gcJCWIABgo59PVc
 ```
+
+<br>
+
+- react
+
+```
+npm install react
+```
+
+```
+npm run build
+```
+
+```
+npm start
+```
