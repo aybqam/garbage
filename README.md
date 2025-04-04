@@ -2,11 +2,6 @@
 
 - Website 
 
-
-```
-https://www.facebook.com/groups/1252199519176429/permalink/1252235942506120/?mibextid=rS40aB7S9Ucbxw6v
-```
-
 ```
 https://github.com/DevNexEssam/portofolio-v2?fbclid=IwZXh0bgNhZW0CMTEAAR0qH_xSwAK2hcJAjDdF7qmjHSRDK69kfkHU_jZOOse0-5z1G-6ganstvVs_aem_UrP2dim4M00tgAB9d0Cshw
 ```
