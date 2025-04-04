@@ -30,6 +30,10 @@ https://satr.codes/
 https://www.coursat.org/
 ```
 
+```
+https://www.deeplearning.ai/courses/?courses_date_desc%5Bpage%5D=4
+```
+
 <br>
 
 - Laravel 
