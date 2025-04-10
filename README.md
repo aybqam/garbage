@@ -1,17 +1,5 @@
 ## Installation
 
-- Windows
-
-```
-get-winuserlanguagelist
-```
-
-```
-set-winuserlanguagelist en-GB, fr-FR
-```
-
-<br>
-
 - Website 
 
 ```
@@ -52,6 +40,10 @@ https://github.com/TokisanGames
 
 ```
 https://www.cursor.com/
+```
+
+```
+https://chef.convex.dev/
 ```
 
 <br>
