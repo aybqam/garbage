@@ -1,5 +1,17 @@
 ## Installation
 
+- Windows
+
+```
+get-winuserlanguagelist
+```
+
+```
+set-winuserlanguagelist en-GB, fr-FR
+```
+
+<br>
+
 - Website 
 
 ```
