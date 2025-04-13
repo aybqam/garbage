@@ -46,10 +46,6 @@ https://www.cursor.com/
 https://chef.convex.dev/
 ```
 
-```
-https://www.facebook.com/61570215521456/posts/pfbid0hFoQWgSqZ78QPt4A4g5itVYsDoFzcMguTuAmaP32gS3DnjFjRSTFXnTdXspnaEddl/?app=fbl
-```
-
 <br>
 
 - Laravel 
