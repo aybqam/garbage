@@ -1,5 +1,19 @@
 ## Installation
 
+- Animation
+
+```
+  Cinema 4D
+```
+```
+Autodesk Maya
+```
+```
+Autodesk 3ds Max
+```
+
+<br>
+
 - Website 
 
 ```
