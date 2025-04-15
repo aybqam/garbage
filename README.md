@@ -60,10 +60,6 @@ https://www.cursor.com/
 https://chef.convex.dev/
 ```
 
-```
-https://shorturl.at/3Y63U
-```
-
 
 <br>
 
