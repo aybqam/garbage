@@ -3,13 +3,7 @@
 - Animation
 
 ```
-  Cinema 4D
-```
-```
-Autodesk Maya
-```
-```
-Autodesk 3ds Max
+Cinema 4D
 ```
 
 <br>
@@ -58,6 +52,9 @@ https://www.cursor.com/
 
 ```
 https://chef.convex.dev/
+```
+```
+https://bolt.new/
 ```
 
 
