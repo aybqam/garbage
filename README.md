@@ -57,8 +57,17 @@ https://www.cursor.com/
 ```
 https://chef.convex.dev/
 ```
+
 ```
 https://bolt.new/
+```
+
+```
+https://www.swing2app.com
+```
+
+```
+https://github.com/HuzaifAhmed01/
 ```
 
 
