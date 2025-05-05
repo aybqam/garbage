@@ -75,11 +75,6 @@ https://www.swing2app.com
 https://github.com/HuzaifAhmed01/
 ```
 
-```
-https://www.facebook.com/groups/582691540827365/permalink/588381330258386/?app=fbl
-```
-
-
 <br>
 
 - Laravel 
