@@ -14,6 +14,10 @@ https://forms.office.com/Pages/ResponsePage.aspx?id=r0AoknVLyUGjlv2IF7jJVQisexMc
 https://hyper3d.ai/
 ```
 
+```
+https://www.krea.ai/3d
+```
+
 
 <br>
 
