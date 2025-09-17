@@ -95,6 +95,10 @@ https://www.facebook.com/100090465206449/posts/pfbid023YT4sNF4dZv2haXuph47FcEv3t
 https://www.facebook.com/groups/1680373702798019/permalink/1680379642797425/?app=fbl
 ```
 
+```
+https://manus.im/live-events/sop
+```
+
 <br>
 
 - Laravel 
