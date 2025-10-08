@@ -96,6 +96,14 @@ https://www.facebook.com/groups/1010892411173313/permalink/1012142051048349/?app
 https://www.facebook.com/100090465206449/posts/pfbid023YT4sNF4dZv2haXuph47FcEv3ttkts2bgGHSZM9k2nGWmWhSjTq7nAt2Deyg9wphl/?mibextid=rS40aB7S9Ucbxw6v
 ```
 
+```
+https://www.facebook.com/groups/767949666014210/permalink/785652520910591/?app=fbl
+```
+
+```
+https://www.facebook.com/1329009958726080/videos/3158587177641277/?idorvanity=767949666014210&app=fbl
+```
+
 <br>
 
 - Laravel 
