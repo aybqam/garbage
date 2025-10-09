@@ -1,0 +1,98 @@
+my-mern-app/
+│
+├── client/              ← واجهة React
+│   ├── Dockerfile
+│   └── package.json
+│
+├── server/              ← Backend Express
+│   ├── Dockerfile
+│   └── package.json
+│
+├── docker-compose.yml   ← هنا بالضبط تضعه ✅
+│
+└── README.md
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+في مجلد client موجود Dockerfile
+
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+في مجلد server موجود Dockerfile
+
+
+
+# استخدم نسخة من Node
+FROM node:18
+
+# حدد مجلد العمل داخل الحاوية
+WORKDIR /app
+
+# انسخ ملفات المشروع (package.json أولاً لتثبيت التبعيات)
+COPY package*.json ./
+
+# ثبت التبعيات
+RUN npm install
+
+# انسخ باقي الملفات
+COPY . .
+
+# عرّف المنفذ
+EXPOSE 5000
+
+# شغّل السيرفر
+CMD ["npm", "start"]
+
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+
+في ملف yml 
+
+
+version: "3"
+services:
+  server:
+    build: ./server
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mydb
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+
+✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+
+
+ثم terminal بتع vscode 
+
+
+docker compose up --build
+
