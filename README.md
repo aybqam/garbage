@@ -97,11 +97,8 @@ https://www.facebook.com/100090465206449/posts/pfbid023YT4sNF4dZv2haXuph47FcEv3t
 ```
 
 ```
-https://www.facebook.com/groups/767949666014210/permalink/785652520910591/?app=fbl
-```
+https://www.aramco.com/-/media/publications/corporate-reports/bonds/saudi-aramco-bond-final-terms-2030-notes-b.pdf
 
-```
-https://www.facebook.com/1329009958726080/videos/3158587177641277/?idorvanity=767949666014210&app=fbl
 ```
 
 <br>
