@@ -1,98 +1,48 @@
-my-mern-app/
-│
-├── client/              ← واجهة React
-│   ├── Dockerfile
-│   └── package.json
-│
-├── server/              ← Backend Express
-│   ├── Dockerfile
-│   └── package.json
-│
-├── docker-compose.yml   ← هنا بالضبط تضعه ✅
-│
-└── README.md
+✅✅✅✅✅✅✅✅
+Dockerfile 
+✅✅✅✅✅✅✅✅
 
-✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
-
-في مجلد client موجود Dockerfile
-
-
-FROM node:18
-
+# المرحلة الأولى: بناء تطبيق React
+FROM node:18-alpine AS build
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install
-
 COPY . .
+RUN npm run build
 
-EXPOSE 3000
+# المرحلة الثانية: تشغيل التطبيق عبر nginx
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
-CMD ["npm", "start"]
-
-✅✅✅✅✅✅✅✅✅✅✅✅✅✅
-
-في مجلد server موجود Dockerfile
-
-
-
-# استخدم نسخة من Node
-FROM node:18
-
-# حدد مجلد العمل داخل الحاوية
-WORKDIR /app
-
-# انسخ ملفات المشروع (package.json أولاً لتثبيت التبعيات)
-COPY package*.json ./
-
-# ثبت التبعيات
-RUN npm install
-
-# انسخ باقي الملفات
-COPY . .
-
-# عرّف المنفذ
-EXPOSE 5000
-
-# شغّل السيرفر
-CMD ["npm", "start"]
+❄️❄️❄️❄️❄️❄️❄️❄️❄️
+.dockerignore
+❄️❄️❄️❄️❄️❄️❄️❄️❄️
 
 
-✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
+node_modules
+build
+.git
+.gitignore
+Dockerfile
+.dockerignore
 
 
-في ملف yml 
+⛔⛔⛔⛔⛔⛔⛔⛔
+devcontainer.json
+⛔⛔⛔⛔⛔⛔⛔⛔
 
 
-version: "3"
-services:
-  server:
-    build: ./server
-    ports:
-      - "5000:5000"
-    environment:
-      - MONGO_URI=mongodb://mongo:27017/mydb
-    depends_on:
-      - mongo
-
-  client:
-    build: ./client
-    ports:
-      - "3000:3000"
-    depends_on:
-      - server
-
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-
-
-✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅
-
-
-ثم terminal بتع vscode 
-
-
-docker compose up --build
-
+{
+    "name": "React Dev Container",
+    "image": "node:18-alpine",
+    "context": "..",
+    "appPort": [3000],
+    "workspaceFolder": "/workspace",
+    "runArgs": ["-v", "${localWorkspaceFolder}:/workspace"],
+    "postCreateCommand": "npm install",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/sh"
+    }
+}
