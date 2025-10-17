@@ -89,7 +89,7 @@ https://scansmatter.com/home
 ```
 
 ```
-https://www.facebook.com/groups/1010892411173313/permalink/1012142051048349/?app=fbl
+
 ```
 
 ```
