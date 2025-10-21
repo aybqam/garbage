@@ -1,0 +1,75 @@
+************************
+Dockerfile
+************************
+ 
+# استخدام الصورة الرسمية لـ Node.js
+FROM node:18-alpine
+
+# تعيين مجلد العمل
+WORKDIR /app
+
+# نسخ ملفات package
+COPY package*.json ./
+
+# تثبيت dependencies
+RUN npm install
+
+# نسخ باقي ملفات المشروع
+COPY . .
+
+# بناء التطبيق
+RUN npm run build
+
+# فتح المنفذ
+EXPOSE 3000
+
+# تشغيل التطبيق
+CMD ["npm", "start"]
+
+
+
+************************
+dockerignore
+************************
+
+
+node_modules
+npm-debug.log
+.next
+.git
+.env
+
+
+************************
+docker-compose.yml
+************************
+
+
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+
+
+
+************************
+docker run and build 
+************************
+
+# بناء الصورة
+docker build -t next-app .
+
+# تشغيل الحاوية
+docker run -p 3000:3000 next-app
+
+# أو باستخدام docker-compose
+docker-compose up
+
