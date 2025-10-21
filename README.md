@@ -112,15 +112,6 @@ https://ahmadadham.vercel.app/en
 
 ```
 
-```
-className="p-[1px] rounded-full bg-white"
-```
-
-```
-const cookieLang = cookieStore.get("lang")?.value
-const lang = cookieLang === "ar" ? "ar" : "en"
-```
-
 <br>
 
 - Laravel 
