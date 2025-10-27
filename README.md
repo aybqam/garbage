@@ -89,14 +89,6 @@ https://scansmatter.com/home
 ```
 
 ```
-
-```
-
-```
-
-```
-
-```
 https://dev-hussein-alsayed.vercel.app/?fbclid=IwZXh0bgNhZW0CMTEAAR6XDUzs41Ssb5zZZGfpFIqyo0oX3XHocflLfHP9QuFveiJjal1oJkXRyfcJ8A_aem_eIcyinmpN_hQPcfDcyaaVA
 ```
 
@@ -113,7 +105,7 @@ https://lightswind.com/
 ```
 
 ```
-
+https://chat.z.ai/
 ```
 
 ```
