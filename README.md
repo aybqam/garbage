@@ -29,15 +29,7 @@ https://nostalgic-css.github.io/NES.css/
 ```
 
 ```
-
-```
-
-```
 https://flexboxlabs.netlify.app/
-```
-
-```
-
 ```
 
 ```
