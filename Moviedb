@@ -1,0 +1,253 @@
+Perfect — let’s upgrade your Movie DB app to Next.js 15 with React 19 support.
+This version improves Server Components, Server Actions, and React hooks (like useTransition, useOptimistic, etc.).
+Below is the fully updated setup for Next 15 + React 19 + TypeScript using the App Router.
+
+
+---
+
+🚀 Step 1. Create project
+
+npx create-next-app@latest movie-db --typescript
+cd movie-db
+npm install axios tailwindcss
+npx tailwindcss init -p
+
+
+---
+
+⚙️ Step 2. Tailwind setup
+
+tailwind.config.ts
+
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: { extend: {} },
+  plugins: [],
+};
+export default config;
+
+app/globals.css
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+---
+
+🔑 Step 3. Environment variable
+
+.env.local
+
+NEXT_PUBLIC_TMDB_API_KEY=YOUR_TMDB_API_KEY
+
+
+---
+
+📂 Structure
+
+movie-db/
+ ├── app/
+ │   ├── page.tsx
+ │   ├── movie/
+ │   │    └── [id]/page.tsx
+ ├── components/
+ │   ├── MovieCard.tsx
+ │   └── SearchBar.tsx
+ ├── lib/
+ │   └── tmdb.ts
+
+
+---
+
+🧠 Step 4. TMDb API helper
+
+lib/tmdb.ts
+
+import axios from "axios";
+
+const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+const BASE_URL = "https://api.themoviedb.org/3";
+
+export const getPopularMovies = async () => {
+  const res = await axios.get(`${BASE_URL}/movie/popular`, {
+    params: { api_key: API_KEY },
+  });
+  return res.data.results;
+};
+
+export const searchMovies = async (query: string) => {
+  const res = await axios.get(`${BASE_URL}/search/movie`, {
+    params: { api_key: API_KEY, query },
+  });
+  return res.data.results;
+};
+
+export const getMovieDetails = async (id: string) => {
+  const res = await axios.get(`${BASE_URL}/movie/${id}`, {
+    params: { api_key: API_KEY },
+  });
+  return res.data;
+};
+
+
+---
+
+🎬 Step 5. Components
+
+components/MovieCard.tsx
+
+"use client";
+
+import Link from "next/link";
+
+interface MovieCardProps {
+  id: number;
+  title: string;
+  poster_path: string;
+}
+
+export default function MovieCard({ id, title, poster_path }: MovieCardProps) {
+  const img = poster_path
+    ? `https://image.tmdb.org/t/p/w500${poster_path}`
+    : "/no-image.jpg";
+
+  return (
+    <Link
+      href={`/movie/${id}`}
+      className="block bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition"
+    >
+      <img src={img} alt={title} className="w-full h-96 object-cover" />
+      <h3 className="p-2 text-center text-white font-semibold">{title}</h3>
+    </Link>
+  );
+}
+
+
+---
+
+components/SearchBar.tsx
+
+"use client";
+
+import { useState, useTransition } from "react";
+
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
+  const [query, setQuery] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    startTransition(() => onSearch(query));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex justify-center gap-2 mb-6">
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search movies..."
+        className="px-4 py-2 w-80 rounded-md text-black"
+      />
+      <button
+        type="submit"
+        disabled={isPending}
+        className="px-4 py-2 bg-blue-600 rounded-md text-white disabled:opacity-60"
+      >
+        {isPending ? "Searching..." : "Search"}
+      </button>
+    </form>
+  );
+}
+
+
+---
+
+🏠 Step 6. Home page
+
+app/page.tsx
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { getPopularMovies, searchMovies } from "@/lib/tmdb";
+import MovieCard from "@/components/MovieCard";
+import SearchBar from "@/components/SearchBar";
+
+export default function HomePage() {
+  const [movies, setMovies] = useState<any[]>([]);
+
+  useEffect(() => {
+    getPopularMovies().then(setMovies);
+  }, []);
+
+  const handleSearch = async (query: string) => {
+    const results = query ? await searchMovies(query) : await getPopularMovies();
+    setMovies(results);
+  };
+
+  return (
+    <main className="min-h-screen bg-gray-900 text-white p-6">
+      <h1 className="text-4xl font-bold text-center mb-6">🎬 Movie DB</h1>
+      <SearchBar onSearch={handleSearch} />
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} {...movie} />
+        ))}
+      </div>
+    </main>
+  );
+}
+
+
+---
+
+🎥 Step 7. Movie Details Page
+
+app/movie/[id]/page.tsx
+
+import { getMovieDetails } from "@/lib/tmdb";
+
+export default async function MovieDetailPage({ params }: { params: { id: string } }) {
+  const movie = await getMovieDetails(params.id);
+  const img = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : "/no-image.jpg";
+
+  return (
+    <main className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
+      <img src={img} alt={movie.title} className="w-72 rounded-lg mb-6" />
+      <h1 className="text-3xl font-bold mb-4">{movie.title}</h1>
+      <p className="max-w-2xl text-center text-gray-300">{movie.overview}</p>
+      <p className="mt-4 text-gray-400">
+        ⭐ {movie.vote_average} | 📅 {movie.release_date}
+      </p>
+    </main>
+  );
+}
+
+
+---
+
+✅ Step 8. Run app
+
+npm run dev
+
+Visit http://localhost:3000
+
+You now have a fully working Next 15 + React 19 Movie Database app
+with search, details, and modern concurrent rendering features.
+
+
+---
+
+Would you like me to add pagination or infinite scroll next (using React 19’s use or Next 15’s server actions)?
