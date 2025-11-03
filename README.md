@@ -97,7 +97,7 @@ https://github.com/tastejs/next-movies
 ```
 
 ```
-https://github.com/tastejs/next-movies
+npm install react-lazy-load-image-component
 ```
 
 ```
