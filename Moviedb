@@ -1,3 +1,7 @@
+https://github.com/fredie-nation/react-movie
+
+------
+
 Perfect — let’s upgrade your Movie DB app to Next.js 15 with React 19 support.
 This version improves Server Components, Server Actions, and React hooks (like useTransition, useOptimistic, etc.).
 Below is the fully updated setup for Next 15 + React 19 + TypeScript using the App Router.
@@ -31,6 +35,7 @@ const config: Config = {
 };
 export default config;
 
+---
 app/globals.css
 
 @tailwind base;
