@@ -1,3 +1,5 @@
+Edit Navbar Search and link in navbar and footer to go category/[id]/page.tsx
+
 movie-db/
 ├── app/
 │   ├── page.tsx  # الصفحة الرئيسية (Home)
