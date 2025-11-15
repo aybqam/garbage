@@ -1,6 +1,7 @@
 movie-db/
 ├── app/
-│   ├── page.tsx                  # الصفحة الرئيسية (Home)
+│   ├── page.tsx  # الصفحة الرئيسية (Home)
+│   ├── layout.tsx  
 │   ├── movie/
 │   │   └── [id]/page.tsx         # صفحة تفاصيل كل فيلم (Movie Details)
 │   └── category/
