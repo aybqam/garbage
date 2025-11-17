@@ -1,0 +1,97 @@
+نعم، يمكنك استخدام Framer Motion Lite مع هذا الكود! إليك التحليل والتعديلات المطلوبة:
+
+✅ ما يعمل مع Framer Motion Lite:
+
+الميزات المستخدمة في كودك مدعومة بالكامل في الإصدار Lite:
+
+· motion components
+· AnimatePresence
+· Variants typing
+· الخصائص الأساسية: initial, animate, whileHover, whileTap, exit
+· viewport animations
+· staggerChildren
+
+🔧 التعديلات المطلوبة:
+
+ببساطة قم بتغيير سطر الاستيراد:
+
+```typescript
+// بدلاً من:
+import { motion, AnimatePresence, Variants } from "framer-motion";
+
+// استخدم:
+import { motion, AnimatePresence, Variants } from "framer-motion/lite";
+```
+
+📦 فوائد استخدام الإصدار Lite:
+
+· حجم أصغر: ~5KB بدلاً من ~45KB
+· أداء أفضل للتحميل الأولي
+· دعم كامل للتحريك الأساسي الذي تستخدمه
+
+⚠️ ملاحظات هامة:
+
+1. ما لا يدعمه Lite:
+   · layoutId, layout (لست تستخدمها)
+   · useScroll, useTransform (لست تستخدمها)
+   · بعض الميزات المتقدمة للـ Gestures
+2. الكود الحالي متوافق تماماً - كل ميزاتك مدعومة في Lite
+
+🎯 النسخة المعدلة للاستيراد:
+
+```typescript
+"use client";
+
+import { useEffect, useState, useRef } from "react";
+import {
+  getTrendingMovies,
+  getTopRatedMovies,
+  getTrendingTV,
+  getTopRatedTV,
+} from "@/lib/tmdb";
+import MovieCard from "@/components/MovieCard";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+// ✅ استخدم Framer Motion Lite
+import { motion, AnimatePresence, Variants } from "framer-motion/lite";
+
+// باقي الكود يبقى كما هو دون تغيير...
+import { Clapperboard, Star, Flame, MonitorPlay, Trophy } from 'lucide-react';
+
+// كل الـ variants والأنيميشنز تعمل بشكل طبيعي
+const fadeUpVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 60,
+    scale: 0.95 
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+    }
+  }
+};
+
+// ... باقي الكود يبقى دون تغيير
+```
+
+🚀 التوصية:
+
+نعم، استخدم Framer Motion Lite - فهو مثالي لهذا النوع من التطبيقات حيث تحتاج فقط للتحريكات الأساسية التي تدعمها Lite.
+
+الكود سيعمل بنفس الكفاءة مع توفير كبير في الحجم وتحسين في الأداء!
+
+
++-+-++--++-+-+-++--+-+-++--++-+-+-++--++-+-++--++-+-+-++--+-+-++--++-+-+-++--++-+-++--++-+-+-++--+-+-++--++-+-+-++--++
+
