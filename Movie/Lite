@@ -1,399 +1,0 @@
-نعم، يمكنك استخدام Framer Motion Lite مع هذا الكود! إليك التحليل والتعديلات المطلوبة:
-
-✅ ما يعمل مع Framer Motion Lite:
-
-الميزات المستخدمة في كودك مدعومة بالكامل في الإصدار Lite:
-
-· motion components
-· AnimatePresence
-· Variants typing
-· الخصائص الأساسية: initial, animate, whileHover, whileTap, exit
-· viewport animations
-· staggerChildren
-
-🔧 التعديلات المطلوبة:
-
-ببساطة قم بتغيير سطر الاستيراد:
-
-```typescript
-// بدلاً من:
-import { motion, AnimatePresence, Variants } from "framer-motion";
-
-// استخدم:
-import { motion, AnimatePresence, Variants } from "framer-motion/lite";
-```
-
-📦 فوائد استخدام الإصدار Lite:
-
-· حجم أصغر: ~5KB بدلاً من ~45KB
-· أداء أفضل للتحميل الأولي
-· دعم كامل للتحريك الأساسي الذي تستخدمه
-
-⚠️ ملاحظات هامة:
-
-1. ما لا يدعمه Lite:
-   · layoutId, layout (لست تستخدمها)
-   · useScroll, useTransform (لست تستخدمها)
-   · بعض الميزات المتقدمة للـ Gestures
-2. الكود الحالي متوافق تماماً - كل ميزاتك مدعومة في Lite
-
-🎯 النسخة المعدلة للاستيراد:
-
-```typescript
-"use client";
-
-import { useEffect, useState, useRef } from "react";
-import {
-  getTrendingMovies,
-  getTopRatedMovies,
-  getTrendingTV,
-  getTopRatedTV,
-} from "@/lib/tmdb";
-import MovieCard from "@/components/MovieCard";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-
-// ✅ استخدم Framer Motion Lite
-import { motion, AnimatePresence, Variants } from "framer-motion/lite";
-
-// باقي الكود يبقى كما هو دون تغيير...
-import { Clapperboard, Star, Flame, MonitorPlay, Trophy } from 'lucide-react';
-
-// كل الـ variants والأنيميشنز تعمل بشكل طبيعي
-const fadeUpVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    y: 60,
-    scale: 0.95 
-  },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-    }
-  }
-};
-
-// ... باقي الكود يبقى دون تغيير
-```
-
-🚀 التوصية:
-
-نعم، استخدم Framer Motion Lite - فهو مثالي لهذا النوع من التطبيقات حيث تحتاج فقط للتحريكات الأساسية التي تدعمها Lite.
-
-الكود سيعمل بنفس الكفاءة مع توفير كبير في الحجم وتحسين في الأداء!
-
-
-+-+-++--++-+-+-++--+-+-++--++-+-+-++--++-+-++--++-+-+-++--+-+-++--++-+-+-++--++-+-++--++-+-+-++--+-+-++--++-+-+-++--++
-
-
-نعم، Framer Motion Lite يعمل بشكل ممتاز مع هذا الكود! إليك التحليل الكامل:
-
-✅ ما يعمل مع Framer Motion Lite:
-
-جميع الميزات المستخدمة في كودك مدعومة بالكامل:
-
-· motion components
-· الخصائص الأساسية: initial, animate, whileHover, whileTap, exit
-· transition بأنواعها
-· variants system
-· staggerChildren
-· whileInView (مدعوم في Lite)
-· الأنيميشنز المستخدمة: opacity, scale, y, rotate
-
-🔧 التعديل البسيط المطلوب:
-
-```typescript
-// بدلاً من:
-import { motion } from "framer-motion";
-
-// استخدم:
-import { motion } from "framer-motion/lite";
-```
-
-📋 التحليل التفصيلي للكود:
-
-الميزات المستخدمة والمدعومة:
-
-الميزة الحالة ملاحظات
-motion.div ✅ مدعوم أساسي
-initial/animate ✅ مدعوم أساسي
-whileHover/whileTap ✅ مدعوم أساسي
-transition ✅ مدعوم أساسي
-variants ✅ مدعوم أساسي
-staggerChildren ✅ مدعوم أساسي
-whileInView ✅ مدعوم في Lite
-viewport ✅ مدعوم في Lite
-custom index ✅ مدعوم أساسي
-
-الأنيميشنز المستخدمة (جميعها مدعومة):
-
-· Fade in/out
-· Slide up/down
-· Scale animations
-· Hover effects
-· Rotate animations
-· Stagger effects
-
-🚀 النسخة المعدلة:
-
-```typescript
-"use client";
-
-import { motion } from "framer-motion/lite"; // ✅ التغيير هنا فقط
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import { getMovieDetails, getMovieCredits, getSimilarMovies, getMovieVideos } from "@/lib/tmdb";
-import Image from "next/image";
-import Link from "next/link";
-import { 
-  Star, 
-  Calendar, 
-  Clock, 
-  Clapperboard, 
-  Video, 
-  X,
-  Users,
-  Film
-} from "lucide-react";
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-
-// كل الـ variants تبقى كما هي - جميعها مدعومة
-const fadeUpVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: 80,
-    scale: 0.98 
-  },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 1.2,
-    }
-  }
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.4,
-    }
-  }
-};
-
-// ... باقي الكود يبقى تماماً كما هو دون أي تغيير
-```
-
-🎯 لماذا Framer Motion Lite مثالي لهذا الكود:
-
-1. كل الأنيميشنز تعمل - لا يوجد استخدام لأي ميزات غير مدعومة
-2. الحجم أصغر - توفير ≈40KB في حزمة التطبيق
-3. أداء أفضل في التحميل الأولي
-4. دعم كامل للتحريكات المعقدة المستخدمة
-
-⚡ الميزات المتقدمة (غير مستخدمة في كودك):
-
-· layoutId, layout - ❌ غير مستخدمة
-· useScroll, useTransform - ❌ غير مستخدمة
-· useMotionValue - ❌ غير مستخدمة
-· drag gestures - ❌ غير مستخدمة
-
-💡 التوصية النهائية:
-
-نعم، استخدم Framer Motion Lite - فهو مثالي تماماً لهذا النوع من صفحات التفاصيل حيث كل التحريكات المستخدمة مدعومة وستحصل على نفس النتائج مع تحسين الأداء!
-
-الكود سيعمل بنفس الدقة والسلاسة مع توفير كبير في الحجم. 🚀
-
-
-+-+-++--++-+-+-++--+-+-++--++-+-+-++--++-+-++--++-+-+-++--+-+-++--++-+-+-++--++-+-++--++-+-+-++--+-+-++--++-+-+-++--++
-
-
-نعم، Framer Motion Lite يعمل بشكل ممتاز مع هذا الكود! إليك التحليل الكامل:
-
-✅ ما يعمل مع Framer Motion Lite:
-
-جميع الميزات المستخدمة في كودك مدعومة بالكامل:
-
-· motion components
-· Variants typing
-· الخصائص الأساسية: initial, animate, whileHover, whileTap
-· transition بأنواعها
-· staggerChildren
-· custom index
-· الأنيميشنز المستخدمة: opacity, y, scale
-
-🔧 التعديل البسيط المطلوب:
-
-```typescript
-// بدلاً من:
-import { motion, Variants } from "framer-motion";
-
-// استخدم:
-import { motion, Variants } from "framer-motion/lite";
-```
-
-📋 التحليل التفصيلي:
-
-الميزات المستخدمة والمدعومة:
-
-الميزة الحالة ملاحظات
-motion.div ✅ مدعوم أساسي
-initial/animate ✅ مدعوم أساسي
-whileHover/whileTap ✅ مدعوم أساسي
-transition ✅ مدعوم أساسي
-variants ✅ مدعوم أساسي
-staggerChildren ✅ مدعوم أساسي
-custom index ✅ مدعوم أساسي
-
-الـ Variants المستخدمة (جميعها مدعومة):
-
-```typescript
-// كل هذه الـ variants تعمل مع Lite
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut" as const
-    }
-  }
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut" as const
-    }
-  }
-};
-
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const gridItemVariants: Variants = {
-  hidden: { opacity: 0, y: 30, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut" as const
-    }
-  }
-};
-```
-
-🚀 النسخة المعدلة:
-
-```typescript
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import MovieCard from "@/components/MovieCard";
-import {
-  getTrendingMovies,
-  getTopRatedMovies,
-  getTrendingTV,
-  getTopRatedTV,
-  getMoviesByGenre,
-  searchMovies
-} from "@/lib/tmdb";
-
-// ✅ استخدم Framer Motion Lite
-import { motion, Variants } from "framer-motion/lite";
-
-// Icons for different categories
-import { 
-  TrendingUp, 
-  Star, 
-  Clapperboard, 
-  Tv, 
-  Flame,
-  Search,
-  Sword,
-  Laugh,
-  Drama,
-  Skull
-} from 'lucide-react';
-
-// كل الـ variants تبقى كما هي - جميعها مدعومة
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut" as const
-    }
-  }
-};
-
-// ... باقي الكود يبقى تماماً كما هو دون أي تغيير
-```
-
-🎯 لماذا Framer Motion Lite مثالي لهذا الكود:
-
-1. كل الأنيميشنز تعمل - لا يوجد استخدام لأي ميزات غير مدعومة
-2. الحجم أصغر - توفير ≈40KB في حزمة التطبيق
-3. أداء أفضل في التحميل الأولي
-4. دعم كامل للتحريكات المستخدمة:
-   · Fade in/out animations
-   · Slide up animations
-   · Scale animations
-   · Hover effects
-   · Stagger effects
-
-⚡ الميزات المتقدمة (غير مستخدمة في كودك):
-
-· layoutId, layout - ❌ غير مستخدمة
-· useScroll, useTransform - ❌ غير مستخدمة
-· useMotionValue - ❌ غير مستخدمة
-· drag gestures - ❌ غير مستخدمة
-· whileInView - ❌ غير مستخدمة في هذا الكود
-
-💡 التوصية النهائية:
-
-نعم، استخدم Framer Motion Lite - فهو مثالي تماماً لهذه الصفحة حيث:
-
-· تستخدم تحريكات أساسية ومباشرة
-· تحتاج لتأثيرات fade وslide البسيطة
-· تريد تحسين أداء التحميل
-· كل الميزات المستخدمة مدعومة بالكامل
-
-الكود سيعمل بنفس الدقة والسلاسة مع توفير كبير في الحجم وتحسين في الأداء! 🚀

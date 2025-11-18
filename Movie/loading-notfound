@@ -1,0 +1,17 @@
+
+
+app/
+├── layout.tsx
+├── page.tsx
+├── loading.tsx                    (للموقع الرئيسي)
+├── not-found.tsx                  (للموقع الرئيسي)
+├── category/
+│   └── [id]/
+│       ├── page.tsx
+│       ├── loading.tsx
+│       └── not-found.tsx
+└── movie/
+    └── [id]/
+        ├── page.tsx
+        ├── loading.tsx
+        └── not-found.tsx
