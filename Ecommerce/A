@@ -11,7 +11,7 @@ app/
 │   └── [id]/
 │       └── page.tsx
 └── components/
-        ├── productCatd.tsx
+        ├── productCard.tsx
         ├── navbar.tsx
         └── Footer.tsx
 
