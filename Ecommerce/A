@@ -1,1 +1,16 @@
 https://github.com/drnourhomsi/abstore
+
+
+app/
+├── layout.tsx
+├── page.tsx                  
+├── product/
+│      └── [id]/
+│          └── page.tsx
+├── cart/
+│   └── [id]/
+│       └── page.tsx
+└── components/
+        ├── productCatd.tsx
+        ├── navbar.tsx
+        └── Footer.tsx
