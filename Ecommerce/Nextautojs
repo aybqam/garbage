@@ -1,0 +1,263 @@
+حسناً. سأشرح لك تسجيل الدخول باستخدام Google في مشروع Next.js بطريقة صحيحة، مبسطة، ومناسبة للمبتدئ، بدون تعقيد غير ضروري.
+
+سأعطيك أفضل خيار عملي ثم أشرح لماذا.
+
+
+---
+
+الخيار الموصى به (الأفضل للمبتدئ)
+
+✅ استخدام NextAuth.js (Auth.js)
+
+السبب:
+
+جاهز
+
+آمن
+
+مدعوم رسمياً مع Next.js
+
+لا تحتاج كتابة OAuth من الصفر
+
+يدعم Google مباشرة
+
+
+
+---
+
+المتطلبات
+
+مشروع Next.js يعمل
+
+حساب Google
+
+لا تحتاج قاعدة بيانات في البداية (اختياري)
+
+
+
+---
+
+الخطوة 1: تثبيت NextAuth
+
+من داخل مشروعك:
+
+npm install next-auth
+
+
+---
+
+الخطوة 2: إنشاء بيانات Google OAuth
+
+1. ادخل إلى Google Cloud Console
+
+
+2. أنشئ مشروع جديد
+
+
+3. فعّل OAuth Consent Screen
+
+
+4. أنشئ OAuth Client ID
+
+النوع: Web
+
+Authorized redirect URI:
+
+http://localhost:3000/api/auth/callback/google
+
+
+
+
+ستحصل على:
+
+Client ID
+
+Client Secret
+
+
+
+---
+
+الخطوة 3: إعداد متغيرات البيئة
+
+أنشئ ملف:
+
+.env.local
+
+وأضف:
+
+GOOGLE_CLIENT_ID=xxxxxxxx
+GOOGLE_CLIENT_SECRET=xxxxxxxx
+NEXTAUTH_SECRET=any-random-string
+NEXTAUTH_URL=http://localhost:3000
+
+
+---
+
+الخطوة 4: إنشاء API Route للمصادقة
+
+إذا كنت تستخدم App Router
+
+أنشئ:
+
+app/api/auth/[...nextauth]/route.js
+
+واكتب:
+
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+
+const handler = NextAuth({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+  ],
+});
+
+export { handler as GET, handler as POST };
+
+
+---
+
+الخطوة 5: زر تسجيل الدخول (Frontend)
+
+في أي صفحة (Client Component):
+
+"use client";
+
+import { signIn, signOut, useSession } from "next-auth/react";
+
+export default function LoginButton() {
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <>
+        <p>مرحباً {session.user.name}</p>
+        <button onClick={() => signOut()}>تسجيل خروج</button>
+      </>
+    );
+  }
+
+  return (
+    <button onClick={() => signIn("google")}>
+      تسجيل الدخول باستخدام Google
+    </button>
+  );
+}
+
+
+---
+
+الخطوة 6: إضافة Session Provider
+
+في:
+
+app/layout.js
+
+import { SessionProvider } from "next-auth/react";
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
+      </body>
+    </html>
+  );
+}
+
+
+---
+
+الآن ماذا يحدث؟
+
+المستخدم يضغط زر Google
+
+يتم التحويل إلى Google
+
+Google يرجعه لمشروعك
+
+تحصل على:
+
+الاسم
+
+البريد
+
+الصورة
+
+
+
+بدون أي مجهود إضافي.
+
+
+---
+
+هل تحتاج قاعدة بيانات؟
+
+❌ لا، ليس الآن.
+
+NextAuth يعمل:
+
+JWT (افتراضي)
+
+بدون تخزين
+
+
+تحتاج قاعدة بيانات فقط إذا:
+
+حفظ المستخدمين
+
+أدوار (Admin / User)
+
+بيانات إضافية
+
+
+
+---
+
+أخطاء شائعة تجنبها
+
+نسيان "use client"
+
+تشغيل auth في Component Server
+
+وضع Client ID في الكود مباشرة
+
+نسيان redirect URI
+
+
+
+---
+
+الخلاصة
+
+لا تبنِ Google OAuth بنفسك
+
+استخدم NextAuth
+
+بدون قاعدة بيانات في البداية
+
+آمن وجاهز للإنتاج
+
+
+
+---
+
+إذا أردت، أستطيع:
+
+ربط تسجيل الدخول مع NextAutoJS
+
+إضافة حماية صفحات
+
+حفظ المستخدم في قاعدة بيانات لاحقاً
+
+شرح الفرق بين JWT و Database Sessions
+
+
+قل لي:
+هل تريد فقط تسجيل الدخول أم أيضاً حماية صفحات معيّنة؟
