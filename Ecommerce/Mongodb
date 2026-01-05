@@ -1,0 +1,107 @@
+تمام، بما أنك تريد بناء شيء مثل store-techzone.vercel.app، فهذا يعني أنك ستتعامل مع تطبيق تجارة إلكترونية حديث غالبًا على Next.js + MongoDB. في هذه الحالة، تصميم قاعدة البيانات بشكل صحيح مهم جدًا لضمان الأداء وسهولة الصيانة.
+
+إليك التوصية العملية لتطبيقك:
+
+
+---
+
+1. Collections التي تحتاجها
+
+Collection	الغرض	التعليقات
+
+users	تخزين بيانات المستخدم	اسم، إيميل، كلمة مرور مشفرة، تاريخ الإنشاء، صلاحيات
+products	كتالوج المنتجات	اسم المنتج، السعر، الوصف، الصور، المخزون، الفئة
+carts	سلة كل مستخدم	userId، مصفوفة المنتجات مع الكمية والسعر عند إضافة المنتج
+wishlists	قائمة رغبات المستخدم	userId، مصفوفة productIds
+
+
+> كل واحدة مستقلة لأنها تتغير بشكل مختلف وتحتاج استعلامات مختلفة، خصوصًا Cart و Wishlist.
+
+
+
+
+---
+
+2. أمثلة Schemas بسيطة باستخدام Mongoose
+
+User
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: { type: String, unique: true },
+  passwordHash: String,
+  role: { type: String, default: "user" },
+  createdAt: { type: Date, default: Date.now }
+});
+
+Product
+
+const productSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  price: Number,
+  stock: Number,
+  category: String,
+  images: [String]
+});
+
+Cart
+
+const cartSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  items: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      quantity: Number,
+      priceAtTime: Number
+    }
+  ],
+  updatedAt: { type: Date, default: Date.now }
+});
+
+Wishlist
+
+const wishlistSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  createdAt: { type: Date, default: Date.now }
+});
+
+
+---
+
+3. نصائح إضافية لتطبيق مثل store-techzone
+
+1. Indexing:
+
+ضع فهرس على userId في Cart و Wishlist لتسريع الاستعلامات.
+
+ضع فهرس على category أو price في Products إذا ستجري تصفيات كثيرة.
+
+
+
+2. Populating:
+
+استخدم populate() في Mongoose عند الحاجة لبيانات المنتجات في Cart أو Wishlist.
+
+
+
+3. تجنب Embed كبير:
+
+لا تضع كل المنتجات في User document لأن القائمة يمكن أن تصبح ضخمة بسرعة.
+
+
+
+4. التزامن:
+
+عند تعديل السعر أو المخزون، يحدث التغيير في Collection المنتجات فقط، Cart و Wishlist تخزن السعر عند الإضافة إن أحببت.
+
+
+
+
+
+---
+
+إذا أحببت، أستطيع أن أرسم لك مخطط العلاقات بين هذه Collections بحيث ترى كيف ترتبط User مع Cart و Wishlist و Products بشكل واضح قبل البدء في التطوير على Vercel.
+
+هل تريد أن أفعل ذلك؟
