@@ -1,40 +1,237 @@
-تمام، سأقدّم لك نسخة متكاملة وجاهزة للعمل لجميع الملفات الأساسية التي يجب تعديلها أو إنشاؤها لتطبيق تسجيل المستخدم + Wishlist + Cart مرتبطة مباشرة بـ MongoDB. سأرتّبها بشكل واضح حسب الملفات.
+فهمت قصدك. حاليًا لديك نظام تسجيل مستخدمين في MongoDB، بينما المنتجات مخزّنة بشكل ثابت (in-memory) داخل ملف TypeScript.
+لإضافة منتجات فعليًا (CRUD) وبشكل احترافي، يجب نقل المنتجات إلى MongoDB وإنشاء API Route خاص بها.
+
+سأعطيك الحل الكامل بشكل منظم:
 
 
 ---
 
-1️⃣ lib/mongodb.ts – اتصال MongoDB
+1) تصميم Collection للمنتجات (MongoDB Schema)
 
-import { MongoClient } from "mongodb";
+لا تحتاج Mongoose، بما أنك تستخدم getDB() مباشرة.
 
-const uri = process.env.MONGODB_URI!;
-const dbName = process.env.MONGODB_DB!;
+هيكل الوثيقة سيكون مطابقًا لـ Product interface تقريبًا:
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
-
-declare global {
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
+{
+  _id: ObjectId,
+  name: string,
+  category: string,
+  price: number,
+  originalPrice?: number,
+  rating: number,
+  reviews: number,
+  image: string,
+  image2: string,
+  badge?: string,
+  description?: string,
+  specs?: string[],
+  inStock: boolean,
+  createdAt: Date
 }
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri);
-    global._mongoClientPromise = client.connect();
+
+---
+
+2) API Route لإضافة منتج
+
+app/api/products/route.ts
+
+import getDB from "@/lib/mongodb";
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+
+    const {
+      name,
+      category,
+      price,
+      image,
+      image2,
+      rating = 0,
+      reviews = 0,
+      originalPrice,
+      badge,
+      description,
+      specs = [],
+      inStock = true,
+    } = body;
+
+    if (!name || !category || !price || !image || !image2) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400 }
+      );
+    }
+
+    const db = await getDB();
+    const products = db.collection("products");
+
+    const result = await products.insertOne({
+      name,
+      category,
+      price,
+      originalPrice,
+      rating,
+      reviews,
+      image,
+      image2,
+      badge,
+      description,
+      specs,
+      inStock,
+      createdAt: new Date(),
+    });
+
+    return new Response(
+      JSON.stringify({
+        message: "Product added successfully",
+        productId: result.insertedId,
+      }),
+      { status: 201 }
+    );
+  } catch (error: any) {
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { status: 500 }
+    );
   }
-  clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, { serverApi: { version: "1" } });
-  clientPromise = client.connect();
-}
-
-export default async function getDB() {
-  const client = await clientPromise;
-  return client.db(dbName);
 }
 
 
 ---
+
+3) API Route لجلب المنتجات
+
+(بديل عن allProducts)
+
+export async function GET() {
+  try {
+    const db = await getDB();
+    const products = db.collection("products");
+
+    const data = await products.find({}).toArray();
+
+    return new Response(JSON.stringify(data), { status: 200 });
+  } catch (error: any) {
+    return new Response(
+      JSON.stringify({ error: error.message }),
+      { status: 500 }
+    );
+  }
+}
+
+
+---
+
+4) جلب المنتجات حسب التصنيف
+
+// app/api/products/category/[category]/route.ts
+import getDB from "@/lib/mongodb";
+
+export async function GET(
+  _: Request,
+  { params }: { params: { category: string } }
+) {
+  const db = await getDB();
+  const products = db.collection("products");
+
+  const data = await products
+    .find({ category: params.category })
+    .toArray();
+
+  return new Response(JSON.stringify(data), { status: 200 });
+}
+
+
+---
+
+5) جلب منتج واحد بالـ ID
+
+// app/api/products/[id]/route.ts
+import getDB from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
+
+export async function GET(
+  _: Request,
+  { params }: { params: { id: string } }
+) {
+  const db = await getDB();
+  const products = db.collection("products");
+
+  const product = await products.findOne({
+    _id: new ObjectId(params.id),
+  });
+
+  if (!product) {
+    return new Response(
+      JSON.stringify({ error: "Product not found" }),
+      { status: 404 }
+    );
+  }
+
+  return new Response(JSON.stringify(product), { status: 200 });
+}
+
+
+---
+
+6) (اختياري) Seed المنتجات مرة واحدة
+
+إذا أردت إدخال allProducts دفعة واحدة:
+
+await products.insertMany(
+  allProducts.map(p => ({
+    ...p,
+    createdAt: new Date(),
+  }))
+);
+
+تُنفّذ مرة واحدة فقط.
+
+
+---
+
+7) ماذا تحذف الآن؟
+
+❌ allProducts
+
+❌ getProductsByCategory
+
+❌ getProductById
+
+
+وتستبدلهم بنداءات API (fetch).
+
+
+---
+
+8) النتيجة النهائية
+
+مستخدمون ✔ MongoDB
+
+منتجات ✔ MongoDB
+
+Cart & Favorites يمكن ربطها بـ productId
+
+جاهز للدفع (Stripe) لاحقًا
+
+
+
+---
+
+إذا أردت:
+
+ربط المنتجات بالسلة
+
+إضافة صلاحيات Admin
+
+API للتعديل والحذف
+
+Pagination / Search
+
+
+أخبرني مباشرة وسأكمله بنفس المستوى.---
 
 2️⃣ app/api/users/route.ts – تسجيل المستخدم
 
