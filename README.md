@@ -121,10 +121,14 @@ https://tweakcn.com/
 
 - Laravel 
 
-  
 
 ```
-composer create-project laravel/laravel:^12.0 example-app
+composer global update laravel/installer
+```
+
+
+```
+composer create-project laravel/laravel:^13.0 example-app
 ```
 
 
