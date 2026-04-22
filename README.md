@@ -184,7 +184,8 @@ npm run dev
 <br>
 
 ```
-Developed a full-featured e-commerce platform with product browsing, shopping cart, and wishlist functionality, supported by a secure authentication system (Email, Google, GitHub) with email verification and password recovery, a responsive multi-device design, multi-currency support, and an advanced admin dashboard for managing products, orders, users, and coupons.
+
+https://management-system--aybqam.replit.app/
 
 ---
 
