@@ -1,126 +1,273 @@
-import React, { useState } from "react"; import { ChevronRight, LayoutGrid, Menu, BookOpen, Settings, Search, ChevronDown, } from "lucide-react"; import { Card, CardContent } from "@/components/ui/card"; import { Skeleton } from "@/components/ui/skeleton"; import { ScrollArea } from "@/components/ui/scroll-area"; import { Button } from "@/components/ui/button"; import { Input } from "@/components/ui/input";
 
-const navigation = [ { title: "Getting Started", items: ["Installation", "Project Structure"], }, { title: "Building Your Application", items: [ "Routing", "Data Fetching", "Rendering", "Caching", "Styling", "Optimizing", "Configuring", "Testing", "Authentication", "Deploying", "Upgrading", "Examples", ], }, { title: "API Reference", items: ["Components", "File Conventions", "Functions", "next.config.js Options", "CLI", "Edge Runtime"], }, { title: "Architecture", items: ["Accessibility", "Fast Refresh"], }, ];
+📊 الهيكل الكامل للنظام + محتوى الجداول
 
-function SidebarSection({ title, items }: { title: string; items: string[] }) { const [open, setOpen] = useState(true);
+🧭 لوحة التحكم
 
-return ( <div className="mb-4"> <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between px-3 py-2 text-xs font-semibold text-neutral-500 hover:text-neutral-800" > {title} <ChevronDown className={h-4 w-4 transition ${open ? "rotate-180" : ""}} /> </button>
+تعرض ملخص سريع:
 
-{open && (
-    <div className="space-y-1">
-      {items.map((item) => {
-        const active = item === "Data Fetching";
-        return (
-          <button
-            key={item}
-            className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${
-              active
-                ? "bg-neutral-100 font-medium text-black"
-                : "text-neutral-600 hover:bg-neutral-100 hover:text-black"
-            }`}
-          >
-            {item}
-          </button>
-        );
-      })}
-    </div>
-  )}
-</div>
+تحتوي على:
 
-); }
+عدد الطلبات اليوم
 
-function SkeletonCard({ className = "" }: { className?: string }) { return <Skeleton className={rounded-2xl ${className}} />; }
+الطلبات قيد الشحن
 
-export default function DocsLayoutAdvanced() { const [mobileOpen, setMobileOpen] = useState(false);
+الطلبات المكتملة
 
-return ( <div className="min-h-screen bg-white text-neutral-900"> <div className="flex"> {/* Sidebar */} <aside className={fixed z-40 h-full w-[280px] border-r bg-white transition-transform lg:static lg:translate-x-0 ${ mobileOpen ? "translate-x-0" : "-translate-x-full" }} > <div className="flex items-center gap-3 px-5 py-5"> <div className="grid h-10 w-10 place-items-center rounded-2xl bg-black text-white"> <BookOpen className="h-5 w-5" /> </div> <div> <div className="text-sm font-semibold">Documentation</div> <div className="text-xs text-neutral-500">v1.0.0</div> </div> </div>
+المرتجعات
 
-<div className="px-4 pb-3">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
-          <Input
-            placeholder="Search..."
-            className="pl-9 rounded-xl bg-neutral-50"
-          />
-        </div>
-      </div>
+إجمالي الإيرادات
 
-      <ScrollArea className="h-[calc(100vh-100px)] px-3">
-        {navigation.map((section) => (
-          <SidebarSection key={section.title} {...section} />
-        ))}
-      </ScrollArea>
-    </aside>
+تنبيهات (طلبات متأخرة / مشاكل)
 
-    {/* Overlay mobile */}
-    {mobileOpen && (
-      <div
-        className="fixed inset-0 bg-black/20 lg:hidden"
-        onClick={() => setMobileOpen(false)}
-      />
-    )}
 
-    {/* Main */}
-    <main className="flex-1 lg:ml-[280px]">
-      {/* Header */}
-      <header className="flex h-16 items-center border-b px-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          onClick={() => setMobileOpen(true)}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
 
-        <div className="ml-2 flex items-center gap-2 text-sm text-neutral-500">
-          <span>Building Your Application</span>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-black">Data Fetching</span>
-        </div>
+---
 
-        <div className="ml-auto hidden gap-2 lg:flex">
-          <Button variant="outline">
-            <LayoutGrid className="mr-2 h-4 w-4" />
-            Layout
-          </Button>
-          <Button variant="outline">
-            <Settings className="mr-2 h-4 w-4" />
-            Settings
-          </Button>
-        </div>
-      </header>
+📦 الطلبات والشحن
 
-      {/* Content */}
-      <div className="p-6 space-y-4">
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <Card className="rounded-3xl shadow-sm">
-            <CardContent className="p-4">
-              <SkeletonCard className="h-40" />
-            </CardContent>
-          </Card>
+🧾 جدول: الطلبات
 
-          <Card className="rounded-3xl shadow-sm">
-            <CardContent className="p-4">
-              <SkeletonCard className="h-40" />
-            </CardContent>
-          </Card>
+يحتوي على:
 
-          <Card className="rounded-3xl shadow-sm">
-            <CardContent className="p-4">
-              <SkeletonCard className="h-40" />
-            </CardContent>
-          </Card>
-        </div>
+رقم الطلب
 
-        <Card className="rounded-3xl shadow-sm">
-          <CardContent className="p-4">
-            <SkeletonCard className="h-[420px]" />
-          </CardContent>
-        </Card>
-      </div>
-    </main>
-  </div>
-</div>
+اسم العميل
 
-); }
+رقم الهاتف
+
+العنوان
+
+المدينة
+
+المنتج / المنتجات
+
+الكمية
+
+سعر البيع
+
+تكلفة الشحن
+
+حالة الطلب (جديد – قيد التنفيذ – تم الشحن – تم التسليم – ملغي)
+
+حالة الدفع (مدفوع / عند الاستلام)
+
+تاريخ الإنشاء
+
+ملاحظات
+
+
+
+---
+
+🚚 جدول: الشحنات
+
+يحتوي على:
+
+رقم الشحنة
+
+رقم الطلب المرتبط
+
+شركة الشحن / المورد
+
+رقم التتبع
+
+حالة الشحنة (قيد النقل – تم التسليم – متأخر)
+
+تاريخ الشحن
+
+تاريخ التسليم المتوقع
+
+تاريخ التسليم الفعلي
+
+
+
+---
+
+🔄 جدول: المرتجعات
+
+يحتوي على:
+
+رقم المرتجع
+
+رقم الطلب
+
+سبب الإرجاع
+
+حالة المرتجع (قيد المراجعة – تم الاسترجاع – مرفوض)
+
+تاريخ الطلب
+
+المبلغ المسترجع
+
+
+
+---
+
+👥 العملاء
+
+📋 جدول: العملاء
+
+يحتوي على:
+
+اسم العميل
+
+رقم الهاتف
+
+العنوان
+
+المدينة
+
+عدد الطلبات
+
+إجمالي المشتريات
+
+آخر طلب
+
+ملاحظات
+
+
+
+---
+
+🏭 الموردون / شركات الشحن
+
+📋 جدول: الموردين
+
+يحتوي على:
+
+اسم المورد / شركة الشحن
+
+رقم التواصل
+
+نوع المورد (شركة شحن / مورد منتجات)
+
+المدن التي يخدمها
+
+تكلفة الشحن
+
+مدة التوصيل
+
+حالة التفعيل (نشط / موقوف)
+
+
+
+---
+
+⭐ جدول: تقييم الموردين
+
+يحتوي على:
+
+اسم المورد
+
+عدد الطلبات المنفذة
+
+نسبة التسليم الناجح
+
+نسبة المرتجعات
+
+متوسط وقت التوصيل
+
+تقييم عام
+
+
+
+---
+
+💰 الفوترة والاشتراكات
+
+🧾 جدول: الفواتير
+
+يحتوي على:
+
+رقم الفاتورة
+
+اسم العميل / المورد
+
+المبلغ
+
+نوع الفاتورة (بيع / شحن)
+
+حالة الدفع
+
+تاريخ الإصدار
+
+
+
+---
+
+💳 جدول: الاشتراكات
+
+(إذا النظام SaaS أو خدمة مدفوعة)
+
+يحتوي على:
+
+اسم المستخدم / الشركة
+
+نوع الاشتراك
+
+تاريخ البداية
+
+تاريخ الانتهاء
+
+حالة الاشتراك
+
+
+
+---
+
+📊 التقارير والتحليلات
+
+📈 تحتوي على:
+
+إجمالي المبيعات
+
+عدد الطلبات حسب الحالة
+
+أفضل العملاء
+
+أفضل الموردين
+
+نسبة النجاح في التوصيل
+
+نسبة المرتجعات
+
+
+
+---
+
+⚙️ الإعدادات
+
+🔧 تحتوي على:
+
+إعدادات النظام العامة
+
+إدارة المستخدمين والصلاحيات
+
+إعدادات شركات الشحن
+
+طرق الدفع
+
+الإشعارات
+
+
+
+---
+
+🧠 ملاحظات مهمة (خبرة عملية)
+
+لا تخلط بين الطلب والشحنة → كل طلب قد يكون له شحنة
+
+اربط كل شيء برقم (طلب – شحنة – عميل)
+
+ابدأ بسيط ثم أضف التعقيد لاحقًا
+
+أهم 3 جداول فعليًا:
+
+الطلبات
+
+الشحنات
+
+العملاء
+
+
+---
